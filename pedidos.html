@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos Digitais - InonSoft</title>
+    <link rel="stylesheet" href="estilo_pedidos.css">
+</head>
+<body>
+    <!-- Botão Voltar -->
+    <header>
+        <button onclick="window.location.href='index.html'" class="back-button">Dashboard</button>
+    </header>
+
+    <div class="container">
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header>
+                <h2>Pedidos Digitais</h2>
+            </header>
+
+            <section class="pedido-section">
+                <div class="menu">
+                    <h3>Cardápio</h3>
+                    <ul>
+                        <li>
+                            <h4>Hamburguer Clássico</h4>
+                            <p>Descrição: Pão, carne, queijo, alface e tomate.</p>
+                            <p>Preço: R$ 25,00</p>
+                            <button onclick="addToCart('Hamburguer Clássico', 25)">Adicionar ao Carrinho</button>
+                        </li>
+                        <li>
+                            <h4>Pizza Margherita</h4>
+                            <p>Descrição: Molho de tomate, queijo e manjericão.</p>
+                            <p>Preço: R$ 40,00</p>
+                            <button onclick="addToCart('Pizza Margherita', 40)">Adicionar ao Carrinho</button>
+                        </li>
+                        <!-- Adicione mais itens aqui -->
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar do Carrinho -->
+        <aside class="cart-sidebar">
+            <h3>Carrinho</h3>
+            <ul id="cart-items">
+                <!-- Itens do carrinho serão adicionados aqui -->
+            </ul>
+            <p id="total-price">Total: R$ 0,00</p>
+            <button onclick="checkout()">Finalizar Pedido</button>
+        </aside>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            total += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            cart.forEach((cartItem, index) => {
+                cartItems.innerHTML += `<li>${cartItem.item} - R$ ${cartItem.price.toFixed(2)} 
+                <button onclick="removeFromCart(${index})">Remover</button></li>`;
+            });
+            document.getElementById('total-price').innerText = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function checkout() {
+            alert('Pedido finalizado! Total: R$ ' + total.toFixed(2));
+            cart = [];
+            total = 0;
+            updateCart();
+        }
+    </script>
+</body>
+</html>

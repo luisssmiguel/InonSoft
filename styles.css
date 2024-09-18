@@ -1,0 +1,140 @@
+/* Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    background-color: #111;
+    color: #fff;
+    width: 20%;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    font-size: 18px;
+}
+
+.main-content {
+    width: 80%;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px;
+    background-color: #6200ea;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+}
+
+.overview-likes {
+    width: 100%; /* Largura ajustável */
+    max-width: 600px; /* Defina a largura máxima */
+    height: 300px; /* Altura fixa */
+    margin-bottom: 20px; /* Espaçamento para outros elementos */
+    position: relative; /* Garante que o gráfico não saia do container */
+}
+
+.overview-likes canvas {
+    width: 100% !important; /* Garante que o canvas ocupe todo o espaço disponível */
+    height: 100% !important; /* Garante que o canvas use toda a altura disponível */
+}
+
+.orders {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.orders h2 {
+    font-size: 36px;
+    color: #6200ea;
+}
+
+.messages {
+    background-color: #ffe0b2;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.messages ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.logo img {
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0 auto; 
+}

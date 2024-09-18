@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InonSoft - Automação de Processos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css_landing_page.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <img src="img/InonSoft-Logo.png" alt="InonSoft Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#funcionalidades">Funcionalidades</a></li>
+                    <li><a href="#sobre">Sobre Nós</a></li>
+                    <li><a href="#planos">Planos</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <a href="#demo" class="cta">Entrar</a>
+            <a href="#demo" class="cta">Solicite uma Demonstração</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Automatize suas operações e aumente sua eficiência com a InonSoft</h1>
+            <p>Simplifique sua gestão de estoque, controle de vendas, atendimento ao cliente e delivery com nossas soluções inteligentes de automação.</p>
+            <a href="#demo" class="btn">Comece Agora</a>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="funcionalidades">
+        <div class="container">
+            <h2>Como a InonSoft Transforma Sua Empresa</h2>
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <img src="img/Controle de vendas.png" alt="Controle de Vendas" width="180">
+                    <h3>Controle de Vendas Eficiente</h3>
+                    <p>Integre seu ponto de venda com relatórios automáticos e gestão de estoque.</p>
+                </div>
+                <div class="benefit">
+                    <img src="img/Atendimento ao Cliente.png" alt="Atendimento ao Cliente" width="180">
+                    <h3>Atendimento ao Cliente Inteligente</h3>
+                    <p>Automatize o atendimento com chatbots inteligentes e suporte personalizado.</p>
+                </div>
+                <div class="benefit">
+                    <img src="img/Automação de Delivery.png" alt="Automação de Delivery" width="180">
+                    <h3>Automação de Delivery</h3>
+                    <p>Integração com plataformas como iFood e Uber Eats para pedidos em tempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>Empresas que Já Confiaram na InonSoft</h2>
+            <div class="testimonial-carousel">
+                <div class="testimonial">
+                    <p>"A InonSoft revolucionou nossa gestão de estoque e atendimento ao cliente."</p>
+                    <h3>Carlos, Zaponi Sorveteria</h3>
+                </div>
+                <div class="testimonial">
+                    <p>"Desde que implementamos as soluções da InonSoft, nossas vendas aumentaram 30%!"</p>
+                    <h3>Fernanda, Bistrô Gourmet</h3>
+                </div>
+                <div class="testimonial">
+                    <p>"A automação de delivery nos permitiu otimizar as entregas e reduzir erros."</p>
+                    <h3>João, Pizzaria Bella Itália</h3>
+                </div>
+            </div>
+            <button class="prev">Anterior</button>
+            <button class="next">Próximo</button>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="planos">
+        <div class="container">
+            <h2>Escolha o Plano Ideal para Sua Empresa</h2>
+            <div class="pricing-grid">
+                <div class="plan">
+                    <h3>Essencial</h3>
+                    <p>Gestão de estoque básica e controle de vendas simples.</p>
+                    <a href="#" class="btn">Assine Agora</a>
+                </div>
+                <div class="plan">
+                    <h3>Avançado</h3>
+                    <p>Relatórios automáticos e controle de estoque avançado.</p>
+                    <a href="#" class="btn">Assine Agora</a>
+                </div>
+                <div class="plan">
+                    <h3>Premium</h3>
+                    <p>Todos os recursos + suporte completo.</p>
+                    <a href="#" class="btn">Assine Agora</a>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 InonSoft - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const testimonials = document.querySelectorAll('.testimonial');
+        let currentSlide = 0;
+    
+        document.querySelector('.next').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % testimonials.length;
+            updateCarousel();
+        });
+    
+        document.querySelector('.prev').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + testimonials.length) % testimonials.length;
+            updateCarousel();
+        });
+    
+        function updateCarousel() {
+            testimonials.forEach((testimonial, index) => {
+                testimonial.style.transform = `translateX(-${currentSlide * 100}%)`;
+            });
+        }
+    </script>
+
+</body>
+</html>
