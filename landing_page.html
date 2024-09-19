@@ -9,6 +9,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <link rel="stylesheet" href="css_landing_page.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
   <body>
     <!-- Header -->
@@ -18,7 +19,7 @@
         <nav>
           <ul>
             <li><a href="#funcionalidades">Funcionalidades</a></li>
-            <li><a href="#sobre">Sobre Nós</a></li>
+            <li><a href="#sobre-nos">Sobre Nós</a></li>
             <li><a href="#planos">Planos</a></li>
             <li><a href="#contato">Contato</a></li>
           </ul>
@@ -89,34 +90,31 @@
     <!-- Testimonial Section -->
     <section class="testimonials">
       <div class="container">
-        <h2>Empresas que Já Confiaram na InonSoft</h2>
-        <div class="testimonial-carousel">
-          <div class="testimonial">
-            <p>
-              "A InonSoft revolucionou nossa gestão de estoque e atendimento ao
-              cliente."
-            </p>
-            <h3>Carlos, Zaponi Sorveteria</h3>
+          <h2>Empresas que Já Confiaram na InonSoft</h2>
+          <div class="carousel-wrapper">
+              <div class="testimonial-carousel">
+                  <div class="testimonial">
+                      <p>"A InonSoft revolucionou nossa gestão de estoque e atendimento ao cliente."</p>
+                      <h3>Carlos, Zaponi Sorveteria</h3>
+                  </div>
+                  <div class="testimonial">
+                      <p>"Desde que implementamos as soluções da InonSoft, nossas vendas aumentaram 30%!"</p>
+                      <h3>Fernanda, Bistrô Gourmet</h3>
+                  </div>
+                  <div class="testimonial">
+                      <p>"A automação de delivery nos permitiu otimizar as entregas e reduzir erros."</p>
+                      <h3>João, Pizzaria Bella Itália</h3>
+                  </div>
+              </div>
           </div>
-          <div class="testimonial">
-            <p>
-              "Desde que implementamos as soluções da InonSoft, nossas vendas
-              aumentaram 30%!"
-            </p>
-            <h3>Fernanda, Bistrô Gourmet</h3>
-          </div>
-          <div class="testimonial">
-            <p>
-              "A automação de delivery nos permitiu otimizar as entregas e
-              reduzir erros."
-            </p>
-            <h3>João, Pizzaria Bella Itália</h3>
-          </div>
-        </div>
-        <button class="prev">Anterior</button>
-        <button class="next">Próximo</button>
+          <button class="carousel-prev">
+              <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-next">
+              <i class="fas fa-chevron-right"></i>
+          </button>
       </div>
-    </section>
+  </section>
 
     <!-- Sobre Nós Section -->
     <section class="sobre-nos" id="sobre-nos">
@@ -176,7 +174,7 @@
                 <button type="submit" class="btn-enviar">Enviar</button>
             </form>
             <a href="https://wa.me/SEU_NUMERO_DE_WHATSAPP" class="whatsapp-btn" target="_blank">
-              <i class="fab fa-whatsapp"></i> Entre em Contato
+              <i class="fab fa-whatsapp"></i> Fale Conosco 
           </a>
         </div>
     </section>
@@ -189,25 +187,23 @@
     </footer>
 
     <script>
-      const testimonials = document.querySelectorAll(".testimonial");
-      let currentSlide = 0;
+const testimonials = document.querySelector(".testimonial-carousel");
+let currentSlide = 0;
+const totalSlides = document.querySelectorAll(".testimonial").length;
 
-      document.querySelector(".next").addEventListener("click", () => {
-        currentSlide = (currentSlide + 1) % testimonials.length;
-        updateCarousel();
-      });
+document.querySelector(".carousel-next").addEventListener("click", () => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
+});
 
-      document.querySelector(".prev").addEventListener("click", () => {
-        currentSlide =
-          (currentSlide - 1 + testimonials.length) % testimonials.length;
-        updateCarousel();
-      });
+document.querySelector(".carousel-prev").addEventListener("click", () => {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+});
 
-      function updateCarousel() {
-        testimonials.forEach((testimonial, index) => {
-          testimonial.style.transform = `translateX(-${currentSlide * 100}%)`;
-        });
-      }
+function updateCarousel() {
+    testimonials.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
     </script>
   </body>
 </html>

@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+/* Body and Container */
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
@@ -17,62 +18,41 @@ body {
 }
 
 html {
-    scroll-behavior: smooth; /* Isso habilita a rolagem suave em navegadores modernos */
+    scroll-behavior: smooth;
 }
 
+/* Header */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    background-color: #000000;
-}
-
-header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background-color: #000;
 }
 
 .logo {
     width: 150px;
-    margin-right:20px; /* Reduz a margem entre a logo e o menu de navegação */
+    margin-right: 20px;
 }
 
 nav {
     flex: 1;
-    text-align: center; /* Centraliza o conteúdo */
+    text-align: center;
 }
 
 nav ul {
     display: flex;
     list-style: none;
-    margin-left: 0;  /* Diminua este valor para aproximar do logo */
+    margin-left: 0;
 }
 
 nav ul li {
-    margin-left: 15px; /* Ajuste conforme necessário para espaçamento entre os links */
+    margin-left: 15px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: #ffffff;
-}
-
-.button-container {
-    display: flex;
-    justify-content: flex-start; /* Alinha os botões à esquerda */
-    gap: 20px; /* Ajusta o espaço entre os botões */
-}
-
-.cta {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-left: 10px; /* Isso move o botão para a direita */
-    display: inline-block;
+    color: #fff;
 }
 
 header .container {
@@ -81,6 +61,17 @@ header .container {
     align-items: center;
 }
 
+.cta {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+/* Hero Section */
 .hero {
     background-color: #007BFF;
     color: white;
@@ -106,7 +97,7 @@ header .container {
     text-decoration: none;
 }
 
-
+/* Benefits Section */
 .benefits {
     padding: 50px 0;
     background-color: #f9f9f9;
@@ -114,7 +105,7 @@ header .container {
 }
 
 .benefits h2 {
-    margin-bottom: 40px; /* Aumente esse valor conforme necessário */
+    margin-bottom: 40px;
 }
 
 .benefits-grid {
@@ -132,49 +123,59 @@ header .container {
 }
 
 .benefit:hover {
-    transform: scale(1.05); /* Aumenta ligeiramente a caixa */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Aumenta a sombra */
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.testimonials, .pricing {
+/* Testimonials Section */
+.testimonials {
     padding: 50px 0;
+    text-align: center;
+    position: relative;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
 }
 
 .testimonial-carousel {
     display: flex;
-    overflow: hidden;
-    width: 100%;
+    transition: transform 0.5s ease;
 }
 
 .testimonial {
     min-width: 100%;
-    transition: transform 0.5s ease-in-out;
+    padding: 20px;
 }
 
-.prev, .next {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
+.carousel-prev, .carousel-next {
+    background-color: transparent;
     border: none;
     cursor: pointer;
-    margin: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: #007BFF;
 }
 
-.prev:hover, .next:hover {
-    background-color: #0056b3;
+.carousel-prev {
+    left: 10px;
 }
 
-.testimonial-carousel {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    width: 100%;
-    position: relative;
+.carousel-next {
+    right: 10px;
 }
 
+.carousel-prev:hover, .carousel-next:hover {
+    color: #0056b3;
+}
+
+/* Sobre Nós Section */
 .sobre-nos {
     padding: 60px 0;
-    background-color: #f2f2f2; /* Cor de fundo diferenciada */
+    background-color: #f2f2f2;
     text-align: center;
 }
 
@@ -192,14 +193,21 @@ header .container {
     line-height: 1.6;
 }
 
+/* Pricing Section */
 .pricing-grid {
     display: flex;
     justify-content: space-between;
     gap: 20px;
 }
 
+.pricing {
+    padding-top: 80px; /* Aumenta o espaçamento entre o título e a sessão anterior */
+    padding-bottom: 80px; /* Aumenta o espaçamento entre o final da sessão e a próxima */
+    text-align: center; /* Centraliza o título */
+}
+
 .pricing h2 {
-    margin-bottom: 40px; /* Aumente esse valor conforme necessário */
+    margin-bottom: 40px;
 }
 
 .plan {
@@ -207,23 +215,25 @@ header .container {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;  
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animação suave */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1; /* Torna os planos com a mesma largura */
 }
 
 .plan:hover {
-    transform: scale(1.05); /* Aumenta ligeiramente o tamanho da caixa */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Aumenta a sombra ao passar o mouse */
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .plan p {
-    margin-bottom: 20px; /* Ajuste o valor para maior distância */
+    margin-bottom: 20px;
 }
 
 .plan .btn {
-    margin-top: 20px; /* Ou adicione uma margem superior ao botão */
+    margin-top: 20px;
 }
 
+/* Contato Section */
 .contato {
     padding: 60px 0;
     background-color: #ebecf1;
@@ -276,13 +286,14 @@ header .container {
     background-color: #0056b3;
 }
 
-
+/* Footer */
 footer {
     background-color: #f4f4f4;
     padding: 20px;
     text-align: center;
 }
 
+/* WhatsApp Button */
 .whatsapp-btn {
     display: flex;
     align-items: center;
@@ -298,12 +309,12 @@ footer {
     bottom: 20px;
     right: 20px;
     z-index: 1000;
-    font-size: 0.9rem; /* Reduzir tamanho do texto */
+    font-size: 0.9rem;
 }
 
 .whatsapp-btn i {
     margin-right: 8px;
-    font-size: 1.2rem; /* Ajuste o tamanho do ícone */
+    font-size: 1.2rem;
 }
 
 .whatsapp-btn:hover {
