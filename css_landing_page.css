@@ -288,9 +288,54 @@ header .container {
 
 /* Footer */
 footer {
-    background-color: #f4f4f4;
+    background-color: #ffffff; /* Torna o fundo do rodapé preto */
     padding: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo do footer */
+    align-items: center;
+    position: relative;
+}
+
+.social-media {
+    position: absolute;
+    left: 20px; /* Posiciona os ícones no canto esquerdo */
+    display: flex;
+    gap: 15px;
+}
+
+.social-media a {
+    color: #000000;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-media a:hover {
+    color: #007BFF;
+}
+
+.social-media a .fa-facebook-f:hover {
+    color: #3b5998;
+}
+
+.social-media a .fa-twitter:hover {
+    color: #1DA1F2;
+}
+
+.social-media a .fa-instagram:hover {
+    color: #C13584;
+}
+
+.social-media a .fa-linkedin-in:hover {
+    color: #0077B5;
+}
+
+footer p {
+    color: #000000; /* Define o texto de direitos autorais como branco */
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza o texto de direitos autorais */
 }
 
 /* WhatsApp Button */
