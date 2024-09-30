@@ -193,6 +193,112 @@ header .container {
     line-height: 1.6;
 }
 
+/* Como pode ajudar sua empresa Section */
+.transformacao {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .transformacao .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .transformacao h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #333;
+  }
+  
+  .transformacao-item {
+    margin-bottom: 40px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave para hover */
+  }
+  
+  .transformacao-item:hover {
+    transform: translateY(-5px); /* Leve elevação ao passar o mouse */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra ao passar o mouse */
+  }
+  
+  .transformacao-content {
+    display: flex;
+    align-items: center; /* Alinhamento vertical */
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0; /* Borda leve */
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease; /* Transição suave para cor de fundo */
+  }
+  
+  .transformacao-content:hover {
+    background-color: #f0f9ff; /* Cor de fundo ao passar o mouse */
+  }
+  
+  .transformacao-img {
+    width: 120px;
+    margin-right: 30px; /* Espaço entre a imagem e o texto */
+  }
+  
+  .transformacao-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .transformacao-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+  }
+  
+  /* Estilos para o container do botão */
+  .button-container {
+    text-align: center; /* Centraliza o botão */
+    margin-top: 40px; /* Espaçamento acima do botão */
+  }
+  
+  /* Estilos para o botão */
+  .button-container .btn {
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: #ffffff; /* Cor do texto */
+    padding: 15px 30px; /* Espaçamento interno */
+    border: none; /* Remove bordas */
+    border-radius: 5px; /* Borda arredondada */
+    font-size: 1.2rem; /* Tamanho da fonte */
+    cursor: pointer; /* Cursor de clique */
+    text-decoration: none; /* Remove sublinhado */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transição suave para hover */
+  }
+  
+  .button-container .btn:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+    transform: scale(1.05); /* Aumenta levemente o botão ao passar o mouse */
+  }
+  
+  /* Estilos responsivos para telas menores */
+  @media (max-width: 768px) {
+    .transformacao-content {
+      flex-direction: column;
+      text-align: center; /* Centraliza o texto e a imagem */
+    }
+  
+    .transformacao-img {
+      margin: 0 0 20px 0; /* Margem inferior na imagem */
+    }
+  
+    .transformacao-text h3 {
+      font-size: 1.5rem;
+    }
+  
+    .button-container .btn {
+      width: 100%; /* Botão ocupa largura total */
+      padding: 15px; /* Ajusta padding em telas menores */
+    }
+  }
+
 /* Pricing Section */
 .pricing-grid {
     display: flex;
