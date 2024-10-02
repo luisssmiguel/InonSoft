@@ -571,57 +571,113 @@ header .container {
     background-color: #0056b3;
 }
 
-/* Footer */
+/* Rodapé */
 footer {
-    background-color: #ffffff; /* Torna o fundo do rodapé preto */
-    padding: 20px;
-    display: flex;
-    justify-content: center; /* Centraliza o conteúdo do footer */
-    align-items: center;
-    position: relative;
+  background-color: #333; /* Cor de fundo do rodapé */
+  color: #ffffff; /* Cor do texto */
+  padding: 40px 0; /* Espaçamento interno */
 }
 
-.social-media {
-    position: absolute;
-    left: 20px; /* Posiciona os ícones no canto esquerdo */
-    display: flex;
-    gap: 15px;
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.social-media a {
-    color: #000000;
-    font-size: 1.2rem;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
 }
 
-.social-media a:hover {
-    color: #007BFF;
+.footer-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ffffff;
 }
 
-.social-media a .fa-facebook-f:hover {
-    color: #3b5998;
+.footer-section p, .footer-section ul, .footer-section li {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #dddddd;
 }
 
-.social-media a .fa-twitter:hover {
-    color: #1DA1F2;
+.footer-section ul {
+  list-style: none;
+  padding: 0;
 }
 
-.social-media a .fa-instagram:hover {
-    color: #C13584;
+.footer-section ul li {
+  margin-bottom: 10px;
 }
 
-.social-media a .fa-linkedin-in:hover {
-    color: #0077B5;
+.footer-section ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-footer p {
-    color: #000000; /* Define o texto de direitos autorais como branco */
-    margin: 0;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%); /* Centraliza o texto de direitos autorais */
+.footer-section ul li a:hover {
+  color: #007bff;
 }
+
+.footer-section.contact ul li {
+  display: flex;
+  align-items: center;
+}
+
+.footer-section.contact ul li i {
+  margin-right: 10px;
+}
+
+.footer-section.social {
+  text-align: center;
+}
+
+.footer-section.social .social-media {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-section.social .social-media a {
+  font-size: 1.5rem;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.footer-section.social .social-media a:hover {
+  color: #007bff;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid #555;
+  margin-top: 30px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #dddddd;
+}
+
+/* Responsividade do Rodapé */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-section {
+    padding: 20px 0;
+  }
+
+  .footer-bottom {
+    padding: 20px 0;
+  }
+}
+
 
 /* WhatsApp Button */
 .whatsapp-btn {
