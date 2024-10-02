@@ -200,6 +200,43 @@
       </div>
     </section>
 
+  <!-- Seção FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <h2>Perguntas Frequentes</h2>
+    <div class="faq-item">
+      <h3 class="faq-question">Como funciona a automação de atendimento?</h3>
+      <p class="faq-answer">
+        A InonSoft utiliza chatbots e inteligência artificial para automatizar o atendimento ao cliente, respondendo dúvidas comuns e redirecionando clientes para operadores humanos quando necessário.
+      </p>
+    </div>
+    <div class="faq-item">
+      <h3 class="faq-question">Quais são os planos disponíveis?</h3>
+      <p class="faq-answer">
+        Oferecemos três planos: Essencial, Avançado e Premium. Cada plano possui funcionalidades e níveis de suporte diferenciados para atender às necessidades do seu negócio.
+      </p>
+    </div>
+    <div class="faq-item">
+      <h3 class="faq-question">Posso testar a InonSoft antes de contratar?</h3>
+      <p class="faq-answer">
+        Sim! Oferecemos uma demonstração gratuita para que você possa experimentar as funcionalidades da InonSoft e ver como nossa automação pode transformar sua empresa.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Seção de Call-to-Action -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Pronto para Transformar Seu Negócio?</h2>
+    <p>
+      Descubra como nossas soluções de automação podem ajudar a melhorar seu atendimento, aumentar suas vendas e otimizar suas operações.
+    </p>
+    <a href="#contato" class="btn cta-btn">Fale Conosco</a>
+  </div>
+</section>
+
+    <!-- Contato Section -->
     <section class="contato" id="contato">
         <div class="container">
             <h2>Entre em Contato</h2>
@@ -257,3 +294,22 @@ function updateCarousel() {
     </script>
   </body>
 </html>
+
+<script>
+  // Seleciona todos os itens de FAQ
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  // Adiciona um evento de clique a cada pergunta
+  faqItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // Se o item clicado já estiver ativo, remove a classe 'active'
+      if (item.classList.contains('active')) {
+        item.classList.remove('active');
+      } else {
+        // Caso contrário, remove a classe 'active' de todos os itens e adiciona ao item clicado
+        faqItems.forEach(faq => faq.classList.remove('active'));
+        item.classList.add('active');
+      }
+    });
+  });
+</script>

@@ -339,6 +339,104 @@ header .container {
     margin-top: 20px;
 }
 
+/* Estilos para a seção de Perguntas Frequentes */
+.faq {
+    padding: 60px 0;
+    background-color: #ffffff;
+  }
+  
+  .faq h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #333;
+  }
+  
+  .faq-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    cursor: pointer; /* Indica que o item é clicável */
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .faq-question {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .faq-answer {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-top: 10px;
+    overflow: hidden; /* Oculta o conteúdo que excede a altura */
+    max-height: 0; /* Define a altura inicial como 0 para animação */
+    transition: max-height 0.5s ease; /* Transição suave */
+  }
+  
+  /* Animação ao abrir e fechar */
+  .faq-item.active .faq-answer {
+    max-height: 200px; /* Define um valor de altura suficiente para a resposta expandir */
+    transition: max-height 0.5s ease; /* Transição suave ao expandir */
+  }
+  
+  /* Seta indicativa */
+  .faq-question::after {
+    content: "\25B6"; /* Triângulo apontando para a direita */
+    transition: transform 0.3s ease;
+  }
+  
+  .faq-item.active .faq-question::after {
+    transform: rotate(90deg); /* Roda o triângulo para baixo quando ativo */
+  }
+
+  /* Seção de Call-to-Action */
+.cta-section {
+    padding: 80px 0;
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+  
+  /*Sessão de CTA */ 
+  .cta-section .cta-btn {
+    background-color: #ffffff;
+    color: #007bff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .cta-section .cta-btn:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+  }
+
 /* Contato Section */
 .contato {
     padding: 60px 0;
