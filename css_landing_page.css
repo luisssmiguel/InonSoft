@@ -653,3 +653,316 @@ footer p {
 }
 
 
+/* Responsividade para dispositivos menores */
+@media (max-width: 768px) {
+
+    /* Header - Menu Responsivo */
+    nav ul {
+      flex-direction: column;
+      background-color: #000;
+      position: absolute;
+      top: 70px;
+      left: -100%;
+      width: 100%;
+      transition: left 0.3s ease;
+      text-align: left;
+    }
+  
+    nav ul li {
+      margin: 10px 0;
+      padding: 10px;
+    }
+  
+    nav ul li a {
+      font-size: 1.2rem;
+    }
+  
+    nav ul.show {
+      left: 0;
+    }
+  
+    .cta {
+      margin-top: 10px;
+    }
+  
+    /* Hero Section */
+    .hero {
+      padding: 60px 20px;
+    }
+  
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero p {
+      font-size: 1rem;
+    }
+  
+    /* Benefits Section */
+    .benefits-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .benefit {
+      margin-bottom: 30px;
+      width: 100%;
+    }
+  
+    /* Testimonials Section */
+    .testimonial-carousel {
+      flex-direction: column;
+    }
+  
+    .testimonial {
+      min-width: 100%;
+      padding: 20px;
+    }
+  
+    .carousel-prev, .carousel-next {
+      font-size: 1.5rem;
+    }
+  
+    /* Sobre Nós Section */
+    .sobre-nos p {
+      font-size: 1rem;
+      padding: 0 10px;
+    }
+  
+    /* Seção Transformação */
+    .transformacao-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .transformacao-img {
+      margin: 0 0 20px 0;
+    }
+  
+    .button-container .btn {
+      width: 100%;
+    }
+  
+    /* Seção de Planos */
+    .pricing-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .plan {
+      width: 90%;
+      margin-bottom: 20px;
+    }
+  
+    .plan ul li {
+      padding: 8px 0;
+    }
+  
+    /* Tabela Comparativa */
+    .planos-tabela th, .planos-tabela td {
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+  
+    /* Seção FAQ */
+    .faq h2 {
+      font-size: 2rem;
+    }
+  
+    .faq-question {
+      font-size: 1.2rem;
+    }
+  
+    .faq-answer {
+      font-size: 0.9rem;
+    }
+  
+    /* Seção CTA */
+    .cta-section h2 {
+      font-size: 2rem;
+    }
+  
+    .cta-section p {
+      font-size: 1rem;
+    }
+  
+    /* Seção Contato */
+    .contato h2 {
+      font-size: 2rem;
+    }
+  
+    .contato p {
+      font-size: 1rem;
+    }
+  
+    .contato form {
+      width: 90%;
+      margin: 0 auto;
+    }
+  
+    .contato label {
+      font-size: 1rem;
+    }
+  
+    .contato input, .contato textarea {
+      font-size: 1rem;
+    }
+  
+    .contato button {
+      width: 100%;
+      font-size: 1rem;
+    }
+  
+    /* Footer */
+    footer {
+      flex-direction: column;
+      padding: 20px;
+      text-align: center;
+    }
+  
+    footer .social-media {
+      position: static;
+      margin-bottom: 15px;
+      justify-content: center;
+    }
+  
+    footer p {
+      position: static;
+      transform: none;
+      margin-top: 10px;
+    }
+  
+    /* Botão do WhatsApp */
+    .whatsapp-btn {
+      width: 80%;
+      bottom: 10px;
+      right: 10px;
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 20px;
+      text-align: center;
+    }
+  
+    .whatsapp-btn i {
+      font-size: 1.2rem;
+      margin-right: 5px;
+    }
+  }
+  
+  /* Responsividade para dispositivos menores que 480px */
+  @media (max-width: 480px) {
+    /* Header */
+    .logo {
+      width: 100px;
+    }
+  
+    .cta {
+      padding: 5px 10px;
+      font-size: 0.9rem;
+    }
+  
+    /* Hero Section */
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+  
+    .hero p {
+      font-size: 0.9rem;
+    }
+  
+    /* Benefits Section */
+    .benefit {
+      width: 100%;
+    }
+  
+    /* Testimonials Section */
+    .testimonial {
+      padding: 15px;
+    }
+  
+    .carousel-prev, .carousel-next {
+      font-size: 1.2rem;
+    }
+  
+    /* Seção Transformação */
+    .transformacao-content {
+      padding: 15px;
+    }
+  
+    /* Seção de Planos */
+    .plan ul li {
+      font-size: 0.8rem;
+      padding: 5px 0;
+    }
+  
+    .plan .btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+  
+    /* Tabela Comparativa */
+    .planos-tabela th, .planos-tabela td {
+      padding: 8px;
+      font-size: 0.8rem;
+    }
+  
+    /* Seção FAQ */
+    .faq-question {
+      font-size: 1rem;
+    }
+  
+    .faq-answer {
+      font-size: 0.8rem;
+    }
+  
+    /* Seção CTA */
+    .cta-section h2 {
+      font-size: 1.8rem;
+    }
+  
+    .cta-section p {
+      font-size: 0.9rem;
+    }
+  
+    /* Seção Contato */
+    .contato h2 {
+      font-size: 1.8rem;
+    }
+  
+    .contato p {
+      font-size: 0.9rem;
+    }
+  
+    .contato label {
+      font-size: 0.9rem;
+    }
+  
+    .contato input, .contato textarea {
+      font-size: 0.9rem;
+    }
+  
+    .contato button {
+      font-size: 0.9rem;
+    }
+  
+    /* Footer */
+    .social-media a {
+      font-size: 1rem;
+    }
+  
+    footer p {
+      font-size: 0.9rem;
+    }
+  
+    /* Botão do WhatsApp */
+    .whatsapp-btn {
+      font-size: 0.8rem;
+      padding: 8px 10px;
+    }
+  
+    .whatsapp-btn i {
+      font-size: 1rem;
+    }
+  }
+  
+
