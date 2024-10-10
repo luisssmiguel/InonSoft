@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar & Cadastrar</title>
+    <link rel="stylesheet" type="text/css" href="login_style.css" />
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="forms-container">
+        <div class="signin-signup">
+          <form action="" class="sign-in-form">
+            <h2 class="title">Entrar</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Nome de usuário" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Senha" />
+            </div>
+            <input type="submit" value="Entrar" class="btn solid" />
+          </form>
+
+          <form action="" class="sign-up-form">
+            <h2 class="title">Cadastrar</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="text" placeholder="Nome de usuário" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="E-mail" />
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="Senha" />
+            </div>
+            <input type="submit" value="Cadastrar" class="btn solid" />
+          </form>
+        </div>
+      </div>
+
+      <div class="panels-container">
+        <div class="panel left-panel">
+          <div class="content">
+            <h3>Novo por aqui?</h3>
+            <p>
+              Cadastre-se para começar a aproveitar todos os recursos disponíveis para nossos usuários!
+            </p>
+            <button class="btn transparent" id="sign-up-btn">Cadastrar</button>
+          </div>
+        </div>
+
+        <div class="panel right-panel">
+          <div class="content">
+            <h3>Já tem uma conta?</h3>
+            <p>
+              Se você já possui uma conta, faça o login para acessar o sistema!
+            </p>
+            <button class="btn transparent" id="sign-in-btn">Entrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script_login.js"></script>
+  </body>
+</html>

@@ -888,22 +888,75 @@ footer {
       margin-top: 10px;
     }
   
-    /* Botão do WhatsApp */
-    .whatsapp-btn {
-      width: 80%;
-      bottom: 10px;
-      right: 10px;
-      font-size: 1rem;
+/* Botão do WhatsApp - Estilo Geral */
+.whatsapp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  background-color: #25D366;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px; /* Bordas arredondadas */
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+  position: fixed; /* Mantém o botão fixo na tela */
+  bottom: 20px; /* Posição a partir do fundo */
+  right: 20px; /* Posição a partir do lado direito */
+  z-index: 1000; /* Mantém o botão acima de outros elementos */
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Ícone do WhatsApp */
+.whatsapp-btn i {
+  margin-right: 8px;
+  font-size: 1.5rem; /* Tamanho do ícone */
+}
+
+/* Efeito de Hover */
+.whatsapp-btn:hover {
+  background-color: #1DA851;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Efeito ao passar o mouse */
+}
+
+/* Estilo Responsivo - Versão Mobile */
+@media (max-width: 768px) {
+  .whatsapp-btn {
+      width: 50px; /* Botão menor em mobile */
+      height: 50px; /* Altura igual à largura para manter circular */
+      border-radius: 50%; /* Torna o botão circular */
       padding: 10px;
-      border-radius: 20px;
-      text-align: center;
-    }
-  
-    .whatsapp-btn i {
-      font-size: 1.2rem;
-      margin-right: 5px;
-    }
+      justify-content: center; /* Centraliza o conteúdo */
+      right: 20px; /* Alinha à direita */
+      bottom: 20px; /* Mantém alinhado no fundo */
   }
+
+  .whatsapp-btn .whatsapp-text {
+      display: none; /* Esconde o texto em telas menores */
+  }
+
+  .whatsapp-btn i {
+      font-size: 1.8rem; /* Aumenta o tamanho do ícone */
+      margin: 0;
+  }
+}
+
+/* Estilo Responsivo para telas menores que 480px */
+@media (max-width: 480px) {
+  .whatsapp-btn {
+      width: 40px; /* Reduz ainda mais o tamanho do botão */
+      height: 40px; /* Mantém a altura e largura iguais */
+      right: 10px; /* Ajusta a posição no lado direito */
+      bottom: 10px; /* Ajusta a posição no fundo */
+      border-radius: 50%; /* Mantém o botão circular */
+  }
+
+  .whatsapp-btn i {
+      font-size: 1.5rem; /* Ajusta o tamanho do ícone */
+  }
+}
+
   
   /* Responsividade para dispositivos menores que 480px */
   @media (max-width: 480px) {
@@ -1009,16 +1062,7 @@ footer {
     footer p {
       font-size: 0.9rem;
     }
-  
-    /* Botão do WhatsApp */
-    .whatsapp-btn {
-      font-size: 0.8rem;
-      padding: 8px 10px;
-    }
-  
-    .whatsapp-btn i {
-      font-size: 1rem;
-    }
   }
+}
   
 
