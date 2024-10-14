@@ -5,43 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Entrar & Cadastrar</title>
     <link rel="stylesheet" type="text/css" href="login_style.css" />
-    <script
-      src="https://kit.fontawesome.com/64d58efce2.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="" class="sign-in-form">
+          <!-- Formulário de Login -->
+          <form id="loginForm" class="sign-in-form">
             <h2 class="title">Entrar</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Nome de usuário" />
+              <input type="text" id="loginUsername" name="username" placeholder="Nome de usuário" required />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Senha" />
+              <input type="password" id="loginPassword" name="password" placeholder="Senha" required />
             </div>
-            <input type="submit" value="Entrar" class="btn solid" />
+            <input type="button" value="Entrar" class="btn solid" onclick="loginUser()" />
           </form>
 
-          <form action="" class="sign-up-form">
+          <!-- Formulário de Cadastro -->
+          <form id="registerForm" class="sign-up-form">
             <h2 class="title">Cadastrar</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Nome de usuário" />
+              <input type="text" id="registerUsername" name="username" placeholder="Nome de usuário" required />
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="E-mail" />
+              <input type="email" id="registerEmail" name="email" placeholder="E-mail" required />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Senha" />
+              <input type="password" id="registerPassword" name="password" placeholder="Senha" required />
             </div>
-            <input type="submit" value="Cadastrar" class="btn solid" />
+            <input type="button" value="Cadastrar" class="btn solid" onclick="registerUser()" />
           </form>
         </div>
       </div>

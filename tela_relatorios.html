@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Relatórios</title>
+    <link rel="stylesheet" href="relatorios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="img/InonSoft-Logo.png" alt="InonSoft Logo">
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item"><i class="fas fa-home"></i> Tela Inicial</a>
+                <a href="#" class="menu-item"><i class="fas fa-chart-line"></i> Relatórios</a>
+                <a href="#" class="menu-item"><i class="fas fa-box"></i> Gestão de Estoque</a>
+                <a href="#" class="menu-item"><i class="fas fa-shopping-cart"></i> Gestão de Vendas</a>
+                <a href="#" class="menu-item"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                <a href="#" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
+            </nav>
+            <div class="account-options">
+                <a href="#" class="menu-item"><i class="fas fa-user"></i> Conta</a>
+                <a href="#" class="menu-item"><i class="fas fa-question-circle"></i> Suporte</a>
+                <a href="tela_inicial.html" class="menu-item"><i class="fas fa-sign-out-alt"></i> Voltar</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="user-info">
+                    <img src="img/user.png" alt="Admin" class="user-photo">
+                    <div class="user-details">
+                        <h4>Emily Zaponi</h4>
+                        <p>Administrador</p>
+                    </div>
+                </div>
+            </header>
+
+            <section class="report-section">
+                <h2>Relatórios de Vendas</h2>
+                <select>
+                    <option value="diario">Diário</option>
+                    <option value="mensal">Mensal</option>
+                    <option value="anual">Anual</option>
+                </select>
+
+                <canvas id="salesChart"></canvas>
+            </section>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Estoque</h3>
+                    <p>Itens em baixa quantidade</p>
+                </div>
+                <div class="card">
+                    <h3>Vendas Delivery</h3>
+                    <p>R$ 3.560,00</p>
+                </div>
+                <div class="card">
+                    <h3>Vendas Loja Física</h3>
+                    <p>R$ 10.000,00</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line', 
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Vendas',
+                    data: [1000, 1500, 2000, 1800, 2300, 2800, 3200],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false
+                }]
+            }
+        });
+    </script>
+</body>
+</html>

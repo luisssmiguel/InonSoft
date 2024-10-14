@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Estoque</title>
+    <link rel="stylesheet" href="estoque.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="img/InonSoft-Logo.png" alt="InonSoft Logo">
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item"><i class="fas fa-home"></i> Tela Inicial</a>
+                <a href="#" class="menu-item"><i class="fas fa-chart-line"></i> Relatórios</a>
+                <a href="#" class="menu-item"><i class="fas fa-box"></i> Gestão de Estoque</a>
+                <a href="#" class="menu-item"><i class="fas fa-shopping-cart"></i> Gestão de Vendas</a>
+                <a href="#" class="menu-item"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                <a href="#" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
+            </nav>
+            <div class="account-options">
+                <a href="#" class="menu-item"><i class="fas fa-user"></i> Conta</a>
+                <a href="#" class="menu-item"><i class="fas fa-question-circle"></i> Suporte</a>
+                <a href="#" class="menu-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="header">
+                <img src="img/user.png" alt="Admin" class="user-img">
+                <h2>Emily Zaponi</h2>
+                <span>Administrador</span>
+            </div>
+
+            <div class="actions">
+                <input type="text" placeholder="Exemplo">
+                <button class="add-button"><i class="fas fa-plus"></i> Adicionar</button>
+                <button class="edit-button"><i class="fas fa-edit"></i> Editar</button>
+                <button class="remove-button"><i class="fas fa-trash"></i> Remover</button>
+                <input type="search" placeholder="Pesquisar Produto">
+            </div>
+
+            <div class="table-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código de Entrada</th>
+                            <th>Quantidade</th>
+                            <th>Valor Unitário</th>
+                            <th>Quantidade em Estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados da tabela -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
