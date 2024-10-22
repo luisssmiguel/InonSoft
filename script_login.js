@@ -1,4 +1,4 @@
-// Script para alternar entre as telas de Login e Cadastro
+// Alternar entre telas de login e cadastro
 const sign_in_btn = document.querySelector("#sign-in-btn");
 const sign_up_btn = document.querySelector("#sign-up-btn");
 const container = document.querySelector(".container");
@@ -28,7 +28,7 @@ async function loginUser() {
     const result = await response.text();
     if (response.status === 200) {
       alert(result);
-      // Redirecionar para outra página após login bem-sucedido, por exemplo:
+      // Redirecionar para outra página após login bem-sucedido
       // window.location.href = "pagina_principal.html";
     } else {
       alert('Erro: ' + result);

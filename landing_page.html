@@ -310,31 +310,58 @@
   </div>
 </section>
 
-    <!-- Seção de Contato -->
 <section class="contato" id="contato">
-  <div class="container">
-    <h2>Entre em Contato</h2>
-    <p>Tem alguma dúvida ou quer saber mais sobre nossos serviços? Envie-nos uma mensagem!</p>
+  <div class="container-contato">
+    <div class="info-contato">
+      <h2>Automação de Processos</h2>
+      <p>
+        <i class="fas fa-map-marker-alt"></i> Rua Ali Perto, 35<br>
+        Rio de Janeiro - RJ<br>
+        Brasil - Terra - Via Láctea
+      </p>
+      <p>
+        <i class="fas fa-envelope"></i> vendas@InonSoft.com<br>
+        <i class="fas fa-envelope"></i> assistencia@InonSoft.com
+      </p>
+      <p>
+        <i class="fas fa-phone-alt"></i> +55 21 9999-9999
+      </p>
+      <div class="social-icons">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-youtube"></i>
+      </div>
+    </div>
 
-    <form action="submit_form.php" method="post">
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required>
+    <div class="form-contato">
+      <form action="submit_form.php" method="post">
+        <div class="input-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+        </div>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+        <div class="input-group">
+          <label for="telefone">Telefone</label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(21) 9999-9999" required>
+        </div>
 
-      <label for="mensagem">Mensagem:</label>
-      <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="contato@email.com" required>
+        </div>
 
-      <button type="submit" class="btn-enviar">Enviar</button>
-    </form>
+        <div class="input-group">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" placeholder="O que você precisa?" required></textarea>
+        </div>
 
-    <!-- Botão de WhatsApp Atualizado -->
-    <a href="https://wa.me/SEU_NUMERO_DE_WHATSAPP" class="whatsapp-btn" target="_blank">
-      <i class="fab fa-whatsapp"></i> <span class="whatsapp-text">Fale Conosco</span>
-    </a>
+        <button type="submit" class="btn-enviar">ENVIAR MENSAGEM</button>
+      </form>
+    </div>
   </div>
 </section>
+
+
 
 
 <!-- Footer -->
