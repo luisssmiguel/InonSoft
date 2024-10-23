@@ -1,59 +1,94 @@
-const mysql = require('mysql2');
 const express = require('express');
-const bodyParser = require('body-parser');
-
+const mysql = require('mysql2');
+const cors = require('cors');
+const bcrypt = require('bcrypt'); // Para hash de senhas
 const app = express();
-const port = 3000;
 
-// Conectar ao banco de dados MySQL
+app.use(express.json());
+app.use(cors());
+
 const connection = mysql.createConnection({
-   host: 'localhost',
-   user: 'root',
-   password: 'Anjo100%',
-   database: 'inonsoft'
+  host: 'localhost',
+  user: 'root',
+  password: 'Anjo100%',  // Substitua pela sua senha correta
+  database: 'inonsoft',
+  port: 3306
 });
 
 connection.connect((err) => {
-   if (err) {
-      console.error('Erro ao conectar ao banco de dados:', err);
-      return;
-   }
-   console.log('Conectado ao banco de dados MySQL.');
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
+    return;
+  }
+  console.log('Conectado ao banco de dados MySQL.');
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Rota de registro
+app.post('/register', async (req, res) => {
+  const { username, email, password } = req.body;
 
-// Rota para registrar usuário
-app.post('/register', (req, res) => {
-   const { username, email, password } = req.body;
-   const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-   connection.query(sql, [username, email, password], (err, result) => {
+  // Log dos dados recebidos para depuração
+  console.log('Dados recebidos no registro:', { username, email, password });
+
+  // Verificar se o usuário já existe
+  const checkUserQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
+  connection.query(checkUserQuery, [username, email], async (err, results) => {
+    if (err) {
+      console.error('Erro ao verificar usuário:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+
+    if (results.length > 0) {
+      // Usuário já existe
+      return res.status(400).send('Usuário ou e-mail já cadastrado.');
+    }
+
+    // Se não existir, cadastrar o novo usuário com senha criptografada
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash da senha
+    console.log('Senha criptografada:', hashedPassword); // Log para depuração
+
+    const insertUserQuery = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+    connection.query(insertUserQuery, [username, email, hashedPassword], (err, result) => {
       if (err) {
-         console.error('Erro ao cadastrar usuário:', err);
-         res.status(500).send('Erro ao cadastrar usuário.');
-      } else {
-         res.status(200).send('Usuário cadastrado com sucesso.');
+        console.error('Erro ao cadastrar usuário:', err);
+        return res.status(500).send('Erro no servidor ao cadastrar usuário.');
       }
-   });
+      res.status(200).send('Usuário cadastrado com sucesso!');
+    });
+  });
 });
 
-// Rota para login
+// Rota de login
 app.post('/login', (req, res) => {
-   const { username, password } = req.body;
-   const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
-   connection.query(sql, [username, password], (err, results) => {
-      if (err) {
-         console.error('Erro ao fazer login:', err);
-         res.status(500).send('Erro no servidor.');
-      } else if (results.length > 0) {
-         res.status(200).send('Login bem-sucedido!');
+  const { username, password } = req.body;
+
+  // Log dos dados recebidos para depuração
+  console.log('Dados recebidos no login:', { username, password });
+
+  const sql = 'SELECT * FROM users WHERE username = ?';
+  
+  connection.query(sql, [username], async (err, results) => {
+    if (err) {
+      console.error('Erro ao fazer login:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+    
+    if (results.length > 0) {
+      const user = results[0];
+      
+      // Comparar a senha com o hash no banco de dados
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        res.status(200).send('Login bem-sucedido!');
       } else {
-         res.status(400).send('Nome de usuário ou senha incorretos.');
+        res.status(400).send('Nome de usuário ou senha incorretos.');
       }
-   });
+    } else {
+      res.status(400).send('Nome de usuário ou senha incorretos.');
+    }
+  });
 });
 
-app.listen(port, () => {
-   console.log(`Servidor rodando em http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
 });
