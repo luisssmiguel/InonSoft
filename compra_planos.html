@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha seu Plano - InonSoft</title>
+    <link rel="stylesheet" href="css_planos.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Seção de seleção de plano -->
+        <div class="plan-selection">
+            <h1>InonSoft</h1>
+            <h2>ESCOLHA A SUA:</h2>
+            <div class="plans">
+                <div class="plan">
+                    <input type="radio" name="plan" id="plan-basico" onclick="updatePlan('basico')">
+                    <label for="plan-basico" class="plan-label">Plano Básico</label>
+                </div>
+                <div class="plan">
+                    <input type="radio" name="plan" id="plan-avancado" onclick="updatePlan('avancado')" checked>
+                    <label for="plan-avancado" class="plan-label">Plano Avançado</label>
+                </div>
+                <div class="plan">
+                    <input type="radio" name="plan" id="plan-premium" onclick="updatePlan('premium')">
+                    <label for="plan-premium" class="plan-label">Plano Premium</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de detalhes e valores do plano -->
+        <div class="plan-details">
+            <h3>Descrição do Plano Selecionado</h3>
+            <div id="plan-description">
+                <p>Relatórios automatizados e personalizados, gestão avançada de estoque, automação de atendimento com chatbots, módulo de fidelidade de clientes e integração com redes sociais e marketplaces.</p>
+            </div>
+            <p><strong>Valor: <span id="plan-value">R$ 150</span></strong></p>
+        </div>
+
+        <!-- Seção de formulário de compra -->
+        <div class="purchase-form">
+            <form action="#">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input type="text" id="sobrenome" name="sobrenome" required>
+                </div>
+                <div class="form-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <h3>PAGAMENTO</h3>
+                <div class="form-group">
+                    <label for="forma-pagamento">Forma de Pagamento</label>
+                    <select id="forma-pagamento" name="forma-pagamento" required>
+                        <option value="">Selecione</option>
+                        <option value="cartao-credito">Cartão de Crédito</option>
+                        <option value="boleto">Boleto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="validade">Validade</label>
+                    <input type="month" id="validade" name="validade" required>
+                </div>
+                <div class="form-group">
+                    <label for="nome-cartao">Nome no Cartão</label>
+                    <input type="text" id="nome-cartao" name="nome-cartao" required>
+                </div>
+                <div class="form-group">
+                    <label for="cvc">CVC</label>
+                    <input type="text" id="cvc" name="cvc" required>
+                </div>
+                <div class="form-group">
+                    <label for="numero-cartao">Número do Cartão</label>
+                    <input type="text" id="numero-cartao" name="numero-cartao" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="termos" name="termos" required>
+                    <label for="termos">Li e aceito os <a href="#">termos e condições</a>.</label>
+                </div>
+                <button type="submit" class="submit-button">Finalizar Compra</button>
+            </form>
+        </div>
+    </div>
+    <script src="script_plano.js"></script>
+</body>
+</html>
