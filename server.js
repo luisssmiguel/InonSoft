@@ -99,6 +99,62 @@ app.post('/login', (req, res) => {
   });
 });
 
+// estoque
+
+// Listar produtos do estoque
+app.get('/estoque', (req, res) => {
+  const query = 'SELECT * FROM estoque';
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao listar estoque:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+    res.json(results);
+  });
+});
+
+// Adicionar produto ao estoque
+app.post('/estoque', (req, res) => {
+  const { codigo, quantidade, valorUnitario } = req.body;
+  const query = 'INSERT INTO estoque (codigo, quantidade, valorUnitario) VALUES (?, ?, ?)';
+  connection.query(query, [codigo, quantidade, valorUnitario], (err, result) => {
+    if (err) {
+      console.error('Erro ao adicionar produto ao estoque:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+    res.status(201).send('Produto adicionado com sucesso!');
+  });
+});
+
+// Editar produto no estoque
+app.put('/estoque/:id', (req, res) => {
+  const { id } = req.params;
+  const { quantidade, valorUnitario } = req.body;
+  const query = 'UPDATE estoque SET quantidade = ?, valorUnitario = ? WHERE id = ?';
+  connection.query(query, [quantidade, valorUnitario, id], (err, result) => {
+    if (err) {
+      console.error('Erro ao editar produto no estoque:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+    res.status(200).send('Produto atualizado com sucesso!');
+  });
+});
+
+// Remover produto do estoque
+app.delete('/estoque/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM estoque WHERE id = ?';
+  connection.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Erro ao remover produto do estoque:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+    res.status(200).send('Produto removido com sucesso!');
+  });
+});
+
+
+
 // Iniciar o servidor na porta 3000
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
