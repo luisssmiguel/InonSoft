@@ -40,7 +40,7 @@
                 <button class="edit-button" onclick="editSelectedEstoque()"><i class="fas fa-edit"></i> Editar</button>
                 <button class="remove-button" onclick="removeSelectedEstoque()"><i class="fas fa-trash"></i> Remover</button>
                 <input type="search" placeholder="Pesquisar Produto" oninput="searchEstoque(this.value)">
-              </div>
+            </div>
 
               <div class="table-section">
                 <table>
@@ -56,6 +56,22 @@
                         <!-- Dados da tabela -->
                     </tbody>
                 </table>
+                <div id="modalAddProduct" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeModal()">&times;</span>
+                        <h2>Adicionar Produto</h2>
+                        <label for="productCode">Código do Produto:</label>
+                        <input type="text" id="productCode" placeholder="Digite o código do produto">
+                
+                        <label for="productQuantity">Quantidade:</label>
+                        <input type="number" id="productQuantity" placeholder="Digite a quantidade">
+                
+                        <label for="productPrice">Valor Unitário:</label>
+                        <input type="number" id="productPrice" step="0.01" placeholder="Digite o valor unitário">
+                
+                        <button onclick="confirmAddProduct()">Adicionar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

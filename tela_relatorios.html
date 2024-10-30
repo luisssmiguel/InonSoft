@@ -63,10 +63,42 @@
                     <h3>Vendas Loja Física</h3>
                     <p>R$ 10.000,00</p>
                 </div>
+                <section class="low-stock-section">
+                    <h2>Itens com Estoque Baixo</h2>
+                    <table class="low-stock-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lowStockTableBody">
+                            <!-- Os produtos com baixo estoque serão adicionados aqui dinamicamente -->
+                        </tbody>
+                    </table>
+                </section>
+                
+                <section class="stock-movement-section">
+                    <h2>Movimentação de Estoque</h2>
+                    <table class="movement-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockMovementTableBody">
+                            <!-- Movimentações de estoque serão adicionadas aqui -->
+                        </tbody>
+                    </table>
+                </section>
             </div>
         </main>
     </div>
-
+    <script src="relatorio.js"></script>
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
