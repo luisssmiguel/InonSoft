@@ -113,14 +113,23 @@ app.get('/estoque', (req, res) => {
   });
 });
 
-// Adicionar produto ao estoque
+//adicionar no estoque
 app.post('/estoque', (req, res) => {
   const { codigo, quantidade, valorUnitario } = req.body;
-  const query = 'INSERT INTO estoque (codigo, quantidade, valorUnitario) VALUES (?, ?, ?)';
-  connection.query(query, [codigo, quantidade, valorUnitario], (err, result) => {
+
+  // Log para depuração
+  console.log("Dados recebidos para adicionar produto:", { codigo, quantidade, valorUnitario });
+
+  // Verificar se todos os campos foram enviados
+  if (!codigo || quantidade == null || valorUnitario == null) {
+    return res.status(400).send("Todos os campos (código, quantidade e valor unitário) são obrigatórios.");
+  }
+
+  const query = 'INSERT INTO estoque (codigo, quantidade, valorUnitario, quantidadeEmEstoque) VALUES (?, ?, ?, ?)';
+  connection.query(query, [codigo, quantidade, valorUnitario, quantidade], (err, result) => {
     if (err) {
       console.error('Erro ao adicionar produto ao estoque:', err);
-      return res.status(500).send('Erro no servidor.');
+      return res.status(500).send('Erro no servidor ao adicionar produto.');
     }
     res.status(201).send('Produto adicionado com sucesso!');
   });
