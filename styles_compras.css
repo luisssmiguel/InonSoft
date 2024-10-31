@@ -75,3 +75,13 @@ button {
 .finalizar {
     background-color: #53d3aa;
 }
+
+#product-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#total-amount {
+    font-size: 1.5em;
+    font-weight: bold;
+}

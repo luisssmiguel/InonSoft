@@ -162,6 +162,32 @@ app.delete('/estoque/:id', (req, res) => {
   });
 });
 
+// Rota para obter todos os produtos
+app.get('/produtos', (req, res) => {
+  connection.query('SELECT * FROM produtos', (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar produtos:', err);
+      return res.status(500).send('Erro no servidor');
+    }
+    res.json(results);
+  });
+});
+
+// Rota para finalizar pedido
+app.post('/finalizar-pedido', (req, res) => {
+  const { produtos, total, pagamento, desconto } = req.body;
+
+  // Armazena os dados do pedido no banco
+  const query = 'INSERT INTO pedidos (produtos, total, pagamento, desconto) VALUES (?, ?, ?, ?)';
+  connection.query(query, [JSON.stringify(produtos), total, pagamento, desconto], (err, result) => {
+    if (err) {
+      console.error('Erro ao finalizar pedido:', err);
+      return res.status(500).send('Erro no servidor');
+    }
+    res.status(200).send('Pedido finalizado com sucesso');
+  });
+});
+
 
 
 // Iniciar o servidor na porta 3000

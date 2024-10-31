@@ -11,23 +11,24 @@
         <div class="finalizar-compra">
             <div class="produtos">
                 <h3>PRODUTOS</h3>
-                <textarea></textarea> <!-- Agora é possível escrever -->
+                <div id="product-list"></div> <!-- Lista de produtos dinâmicos -->
             </div>
             <div class="detalhes-pagamento">
                 <h3>PAGAMENTO</h3>
-                <input type="text" placeholder="Crédito, Débito, Pix e Dinheiro">
+                <input type="text" id="payment-method" placeholder="Crédito, Débito, Pix e Dinheiro">
                 <h3>DESCONTO</h3>
-                <input type="text" placeholder="Porcentagem e/ou R$">
+                <input type="number" id="discount" placeholder="Porcentagem e/ou R$" oninput="calculateTotal()">
             </div>
             <div class="valor-total">
                 <h3>VALOR TOTAL</h3>
-                <textarea></textarea> <!-- Agora é possível escrever -->
+                <p id="total-amount">R$ 0.00</p> <!-- Valor total atualizado -->
             </div>
             <div class="botoes">
                 <button class="voltar">VOLTAR</button>
-                <button class="finalizar">FINALIZAR COMPRA</button>
+                <button class="finalizar" onclick="finalizarCompra()">FINALIZAR COMPRA</button>
             </div>
         </div>
     </div>
+    <script src="script_compras.js"></script>
 </body>
 </html>
