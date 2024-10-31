@@ -188,7 +188,55 @@ app.post('/finalizar-pedido', (req, res) => {
   });
 });
 
+// Rota para ver o tipo da venda do pedido
+app.post('/finalizar-pedido', (req, res) => {
+  const { produtos, total, pagamento, desconto, tipoVenda } = req.body;
 
+  if (!tipoVenda) {
+    console.error('Tipo de venda não especificado');
+    return res.status(400).send('Tipo de venda é obrigatório');
+  }
+
+  const query = 'INSERT INTO pedidos (produtos, total, pagamento, desconto, tipo_venda) VALUES (?, ?, ?, ?, ?)';
+  connection.query(query, [JSON.stringify(produtos), total, pagamento, desconto, tipoVenda], (err, result) => {
+    if (err) {
+      console.error('Erro ao finalizar pedido:', err);
+      return res.status(500).send('Erro no servidor');
+    }
+    res.status(200).send('Pedido finalizado com sucesso');
+  });
+});
+
+// Rota para buscar produtos com menos de 5 unidades no estoque
+app.get('/produtos-baixa-quantidade', (req, res) => {
+  const query = 'SELECT codigo, quantidade FROM estoque WHERE quantidade < 5';
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar produtos com baixa quantidade:', err.message); // Log detalhado do erro
+      return res.status(500).json({ error: 'Erro ao buscar produtos com baixa quantidade.' });
+    }
+    console.log('Produtos com baixa quantidade encontrados:', results);
+    res.json(results);
+  });
+});
+
+// Rota para buscar o valor total de vendas diárias
+app.get('/vendas-diarias', (req, res) => {
+  const query = `
+    SELECT IFNULL(SUM(total), 0) AS total_vendas
+    FROM pedidos
+    WHERE DATE(data_pedido) = CURDATE()
+  `;
+  
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar vendas diárias:', err); // Log detalhado do erro
+      return res.status(500).json({ error: 'Erro ao buscar vendas diárias.' });
+    }
+    res.json(results[0]);
+  });
+});
 
 // Iniciar o servidor na porta 3000
 app.listen(3000, () => {

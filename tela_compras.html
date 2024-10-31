@@ -16,6 +16,13 @@
             <div class="detalhes-pagamento">
                 <h3>PAGAMENTO</h3>
                 <input type="text" id="payment-method" placeholder="Crédito, Débito, Pix e Dinheiro">
+                
+                <h3>TIPO DE VENDA</h3>
+                <select id="sale-type">
+                    <option value="Loja Física">Loja Física</option>
+                    <option value="Delivery">Delivery</option>
+                </select>
+                
                 <h3>DESCONTO</h3>
                 <input type="number" id="discount" placeholder="Porcentagem e/ou R$" oninput="calculateTotal()">
             </div>

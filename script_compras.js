@@ -1,6 +1,6 @@
 let produtosSelecionados = [];
 
-// Carregar produtos ao abrir a página
+// Função para carregar os produtos e exibir na lista
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const response = await fetch('http://localhost:3000/produtos');
@@ -8,20 +8,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const productList = document.getElementById('product-list');
 
     produtos.forEach(produto => {
-        const produtoDiv = document.createElement('div');
-        produtoDiv.classList.add('produto-item');
-        produtoDiv.innerHTML = `
-          <input type="checkbox" onchange="selecionarProduto(${produto.id}, '${produto.nome}', ${Number(produto.preco)})">
-          <span>${produto.nome} - R$${Number(produto.preco).toFixed(2)}</span>
-        `;
-        productList.appendChild(produtoDiv);
-      });
+      const produtoDiv = document.createElement('div');
+      produtoDiv.classList.add('produto-item');
+      produtoDiv.innerHTML = `
+        <input type="checkbox" onchange="selecionarProduto(${produto.id}, '${produto.nome}', ${produto.preco})">
+        <span>${produto.nome} - R$${Number(produto.preco).toFixed(2)}</span>
+      `;
+      productList.appendChild(produtoDiv);
+    });
   } catch (error) {
     console.error("Erro ao carregar produtos:", error);
   }
 });
 
-// Selecionar produtos
+// Função para adicionar ou remover produtos do pedido
 function selecionarProduto(id, nome, preco) {
   const produtoExistente = produtosSelecionados.find(p => p.id === id);
 
@@ -36,11 +36,14 @@ function selecionarProduto(id, nome, preco) {
   calculateTotal(); // Atualiza o valor total
 }
 
-// Calcular o valor total com desconto
+// Função para calcular o total com desconto
 function calculateTotal() {
   const discount = parseFloat(document.getElementById('discount').value) || 0;
   const totalSemDesconto = produtosSelecionados.reduce((total, produto) => total + produto.preco, 0);
+  
+  // Aplica o desconto (se for uma porcentagem, ou valor fixo)
   const totalComDesconto = totalSemDesconto - (totalSemDesconto * (discount / 100));
+  
   document.getElementById('total-amount').textContent = `R$ ${totalComDesconto.toFixed(2)}`;
 }
 
@@ -49,6 +52,7 @@ async function finalizarCompra() {
   const pagamento = document.getElementById('payment-method').value;
   const desconto = parseFloat(document.getElementById('discount').value) || 0;
   const total = parseFloat(document.getElementById('total-amount').textContent.replace("R$", "").trim());
+  const tipoVenda = document.getElementById('sale-type').value; // Obtém o tipo de venda selecionado
 
   if (!pagamento) {
     alert("Por favor, informe o método de pagamento.");
@@ -65,20 +69,17 @@ async function finalizarCompra() {
         produtos: produtosSelecionados,
         total,
         pagamento,
-        desconto
+        desconto,
+        tipoVenda  // Envia o tipo de venda para o backend
       })
     });
 
     if (response.ok) {
       alert("Compra finalizada com sucesso!");
-
-      // Limpar seleção dos produtos, mas manter a lista de produtos disponível
       produtosSelecionados = []; // Limpa os produtos selecionados
       document.querySelectorAll('.produto-item input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false; // Desmarca todos os checkboxes
       });
-
-      // Resetar o valor total, método de pagamento e desconto
       document.getElementById('total-amount').textContent = "R$ 0.00";
       document.getElementById('payment-method').value = "";
       document.getElementById('discount').value = "";
