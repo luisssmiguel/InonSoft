@@ -99,7 +99,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-// estoque
+// Funções para o estoque
 
 // Listar produtos do estoque
 app.get('/estoque', (req, res) => {
@@ -113,14 +113,12 @@ app.get('/estoque', (req, res) => {
   });
 });
 
-//adicionar no estoque
+// Adicionar produto ao estoque
 app.post('/estoque', (req, res) => {
   const { codigo, quantidade, valorUnitario } = req.body;
 
-  // Log para depuração
   console.log("Dados recebidos para adicionar produto:", { codigo, quantidade, valorUnitario });
 
-  // Verificar se todos os campos foram enviados
   if (!codigo || quantidade == null || valorUnitario == null) {
     return res.status(400).send("Todos os campos (código, quantidade e valor unitário) são obrigatórios.");
   }
@@ -162,7 +160,9 @@ app.delete('/estoque/:id', (req, res) => {
   });
 });
 
-// Rota para obter todos os produtos
+// Funções para pedidos
+
+// Rota para listar produtos disponíveis para venda
 app.get('/produtos', (req, res) => {
   connection.query('SELECT * FROM produtos', (err, results) => {
     if (err) {
@@ -173,29 +173,11 @@ app.get('/produtos', (req, res) => {
   });
 });
 
-// Rota para finalizar pedido
-app.post('/finalizar-pedido', (req, res) => {
-  const { produtos, total, pagamento, desconto } = req.body;
-
-  // Armazena os dados do pedido no banco
-  const query = 'INSERT INTO pedidos (produtos, total, pagamento, desconto) VALUES (?, ?, ?, ?)';
-  connection.query(query, [JSON.stringify(produtos), total, pagamento, desconto], (err, result) => {
-    if (err) {
-      console.error('Erro ao finalizar pedido:', err);
-      return res.status(500).send('Erro no servidor');
-    }
-    res.status(200).send('Pedido finalizado com sucesso');
-  });
-});
-
-// Rota para ver o tipo da venda do pedido
+// Rota para finalizar pedido com tipo de venda
 app.post('/finalizar-pedido', (req, res) => {
   const { produtos, total, pagamento, desconto, tipoVenda } = req.body;
 
-  if (!tipoVenda) {
-    console.error('Tipo de venda não especificado');
-    return res.status(400).send('Tipo de venda é obrigatório');
-  }
+  console.log("Tipo de Venda Recebido no Backend:", tipoVenda);
 
   const query = 'INSERT INTO pedidos (produtos, total, pagamento, desconto, tipo_venda) VALUES (?, ?, ?, ?, ?)';
   connection.query(query, [JSON.stringify(produtos), total, pagamento, desconto, tipoVenda], (err, result) => {
@@ -207,13 +189,12 @@ app.post('/finalizar-pedido', (req, res) => {
   });
 });
 
-// Rota para buscar produtos com menos de 5 unidades no estoque
+// Rota para listar produtos com baixa quantidade no estoque
 app.get('/produtos-baixa-quantidade', (req, res) => {
   const query = 'SELECT codigo, quantidade FROM estoque WHERE quantidade < 5';
-
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Erro ao buscar produtos com baixa quantidade:', err.message); // Log detalhado do erro
+      console.error('Erro ao buscar produtos com baixa quantidade:', err);
       return res.status(500).json({ error: 'Erro ao buscar produtos com baixa quantidade.' });
     }
     console.log('Produtos com baixa quantidade encontrados:', results);
@@ -228,10 +209,9 @@ app.get('/vendas-diarias', (req, res) => {
     FROM pedidos
     WHERE DATE(data_pedido) = CURDATE()
   `;
-  
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Erro ao buscar vendas diárias:', err); // Log detalhado do erro
+      console.error('Erro ao buscar vendas diárias:', err);
       return res.status(500).json({ error: 'Erro ao buscar vendas diárias.' });
     }
     res.json(results[0]);

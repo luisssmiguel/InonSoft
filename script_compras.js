@@ -52,7 +52,10 @@ async function finalizarCompra() {
   const pagamento = document.getElementById('payment-method').value;
   const desconto = parseFloat(document.getElementById('discount').value) || 0;
   const total = parseFloat(document.getElementById('total-amount').textContent.replace("R$", "").trim());
-  const tipoVenda = document.getElementById('sale-type').value; // Obtém o tipo de venda selecionado
+  const tipoVenda = document.getElementById('sale-type').value;
+
+  // Log para verificar o valor de tipoVenda antes do envio
+  console.log("Tipo de Venda Selecionado:", tipoVenda);
 
   if (!pagamento) {
     alert("Por favor, informe o método de pagamento.");
@@ -70,15 +73,15 @@ async function finalizarCompra() {
         total,
         pagamento,
         desconto,
-        tipoVenda  // Envia o tipo de venda para o backend
+        tipoVenda  // Confirmação de que tipoVenda está sendo enviado
       })
     });
 
     if (response.ok) {
       alert("Compra finalizada com sucesso!");
-      produtosSelecionados = []; // Limpa os produtos selecionados
+      produtosSelecionados = [];
       document.querySelectorAll('.produto-item input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = false; // Desmarca todos os checkboxes
+        checkbox.checked = false;
       });
       document.getElementById('total-amount').textContent = "R$ 0.00";
       document.getElementById('payment-method').value = "";
