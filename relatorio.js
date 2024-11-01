@@ -42,3 +42,19 @@ async function loadLowStockProducts() {
     loadLowStockProducts();
     loadDailySales();
   });
+  async function loadDailySalesByType() {
+    try {
+      const response = await fetch('http://localhost:3000/vendas-diarias-separadas');
+      if (!response.ok) throw new Error('Erro ao carregar vendas diárias');
+  
+      const { delivery, lojaFisica } = await response.json();
+  
+      document.getElementById('dailySales').textContent = `R$ ${delivery.toFixed(2)}`;
+      document.getElementById('storeSales').textContent = `R$ ${lojaFisica.toFixed(2)}`;
+    } catch (error) {
+      console.error('Erro ao carregar vendas diárias separadas:', error);
+    }
+  }
+  
+  // Carregar vendas diárias separadas por tipo ao carregar a página
+  document.addEventListener('DOMContentLoaded', loadDailySalesByType);

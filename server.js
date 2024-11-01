@@ -218,6 +218,40 @@ app.get('/vendas-diarias', (req, res) => {
   });
 });
 
+
+// Rota para buscar o valor total de vendas diárias separadas por tipo de venda
+app.get('/vendas-diarias-separadas', (req, res) => {
+  const query = `
+    SELECT tipo_venda, IFNULL(SUM(total), 0) AS total_vendas
+    FROM pedidos
+    WHERE DATE(data_pedido) = CURDATE()
+    GROUP BY tipo_venda
+  `;
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar vendas diárias separadas:', err);
+      return res.status(500).json({ error: 'Erro ao buscar vendas diárias separadas.' });
+    }
+
+    // Formatar resultados para retornar valores separados
+    const vendas = {
+      delivery: 0,
+      lojaFisica: 0,
+    };
+
+    results.forEach(row => {
+      if (row.tipo_venda === 'Delivery') {
+        vendas.delivery = row.total_vendas;
+      } else if (row.tipo_venda === 'Loja Física') {
+        vendas.lojaFisica = row.total_vendas;
+      }
+    });
+
+    res.json(vendas);
+  });
+});
+
 // Iniciar o servidor na porta 3000
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
