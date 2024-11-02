@@ -1,3 +1,4 @@
+/* Reset de margens, espaçamentos e bordas */
 * {
     margin: 0;
     padding: 0;
@@ -9,10 +10,12 @@ body {
     background-color: #f4f4f4;
 }
 
+/* Container principal */
 .container {
     display: flex;
 }
 
+/* Barra lateral (sidebar) */
 .sidebar {
     width: 250px;
     background-color: #000;
@@ -56,6 +59,7 @@ body {
     background-color: #333;
 }
 
+/* Conteúdo principal */
 .main-content {
     flex-grow: 1;
     padding: 20px;
@@ -92,7 +96,8 @@ body {
     border-radius: 5px;
 }
 
-.add-button, .remove-button, .edit-button {
+/* Botões de ação */
+.add-button {
     background-color: #007BFF;
     color: white;
     padding: 10px 20px;
@@ -103,18 +108,11 @@ body {
     align-items: center;
 }
 
-.remove-button {
-    background-color: #FF0000;
-}
-
-.edit-button {
-    background-color: #FFA500;
-}
-
-.add-button i, .remove-button i, .edit-button i {
+.add-button i {
     margin-right: 5px;
 }
 
+/* Tabela de dados */
 .table-section {
     margin-top: 20px;
 }
@@ -136,7 +134,35 @@ thead {
     background-color: #f7f7f7;
 }
 
-/* Estilo para o fundo do modal */
+/* Botões de ação dentro da tabela */
+.table-section table td .edit-button,
+.table-section table td .remove-button {
+    margin-right: 8px; /* Espaçamento entre os botões */
+}
+
+.table-section table td button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-button {
+    background-color: #FFA500;
+    color: white;
+}
+
+.remove-button {
+    background-color: #FF0000;
+    color: white;
+}
+
+.add-button i, .remove-button i, .edit-button i {
+    margin-right: 5px;
+}
+
+/* Estilo para o modal */
 .modal {
     display: none; /* Inicialmente oculto */
     position: fixed;
@@ -148,7 +174,6 @@ thead {
     background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
 }
 
-/* Estilo para o conteúdo do modal */
 .modal-content {
     position: absolute;
     top: 50%;
@@ -161,7 +186,6 @@ thead {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Botão de fechar */
 .close-btn {
     position: absolute;
     top: 10px;

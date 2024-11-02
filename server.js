@@ -123,8 +123,8 @@ app.post('/estoque', (req, res) => {
     return res.status(400).send("Todos os campos (código, quantidade e valor unitário) são obrigatórios.");
   }
 
-  const query = 'INSERT INTO estoque (codigo, quantidade, valorUnitario, quantidadeEmEstoque) VALUES (?, ?, ?, ?)';
-  connection.query(query, [codigo, quantidade, valorUnitario, quantidade], (err, result) => {
+  const query = 'INSERT INTO estoque (codigo, quantidade, valorUnitario) VALUES (?, ?, ?)';
+  connection.query(query, [codigo, quantidade, valorUnitario], (err, result) => {
     if (err) {
       console.error('Erro ao adicionar produto ao estoque:', err);
       return res.status(500).send('Erro no servidor ao adicionar produto.');
@@ -217,7 +217,6 @@ app.get('/vendas-diarias', (req, res) => {
     res.json(results[0]);
   });
 });
-
 
 // Rota para buscar o valor total de vendas diárias separadas por tipo de venda
 app.get('/vendas-diarias-separadas', (req, res) => {

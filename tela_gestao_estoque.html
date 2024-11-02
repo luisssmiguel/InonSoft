@@ -37,25 +37,33 @@
 
             <div class="actions">
                 <button class="add-button" onclick="addEstoque()"><i class="fas fa-plus"></i> Adicionar</button>
-                <button class="edit-button" onclick="editSelectedEstoque()"><i class="fas fa-edit"></i> Editar</button>
-                <button class="remove-button" onclick="removeSelectedEstoque()"><i class="fas fa-trash"></i> Remover</button>
                 <input type="search" placeholder="Pesquisar Produto" oninput="searchEstoque(this.value)">
             </div>
 
-              <div class="table-section">
+            <div class="table-section">
                 <table>
                     <thead>
                         <tr>
                             <th>Código de Entrada</th>
                             <th>Quantidade</th>
                             <th>Valor Unitário</th>
-                            <th>Quantidade em Estoque</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="estoque-tabela-body">
-                        <!-- Dados da tabela -->
+                        <tr>
+                            <td>001</td>
+                            <td>10</td>
+                            <td>R$50.00</td>
+                            <td>
+                                <button class="edit-button" onclick="editSelectedEstoque()"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="remove-button" onclick="removeSelectedEstoque()"><i class="fas fa-trash"></i> Remover</button>
+                            </td>
+                        </tr>
+                        <!-- Adicione mais linhas conforme necessário -->
                     </tbody>
                 </table>
+
                 <div id="modalAddProduct" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" onclick="closeModal()">&times;</span>

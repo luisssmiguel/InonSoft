@@ -16,7 +16,6 @@ async function loadEstoque() {
         <td>${item.codigo}</td>
         <td>${item.quantidade}</td>
         <td>${item.valorUnitario}</td>
-        <td>${item.quantidadeEmEstoque}</td>
         <td>
           <button onclick="editEstoque(${item.id})" class="edit-button"><i class="fas fa-edit"></i></button>
           <button onclick="removeEstoque(${item.id})" class="remove-button"><i class="fas fa-trash"></i></button>
@@ -68,36 +67,35 @@ async function addEstoque() {
   }
 }
   
-  // Função para editar um produto no estoque
-  async function editEstoque(id) {
-    const quantidade = prompt("Digite a nova quantidade:");
-    const valorUnitario = prompt("Digite o novo valor unitário:");
+// Função para editar um produto no estoque
+async function editEstoque(id) {
+  const quantidade = prompt("Digite a nova quantidade:");
+  const valorUnitario = prompt("Digite o novo valor unitário:");
   
-    await fetch(`http://localhost:3000/estoque/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ quantidade, valorUnitario })
-    });
+  await fetch(`http://localhost:3000/estoque/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ quantidade, valorUnitario })
+  });
   
-    loadEstoque(); // Atualiza a tabela
-  }
+  loadEstoque(); // Atualiza a tabela
+}
   
-  // Função para remover um produto do estoque
-  async function removeEstoque(id) {
-    await fetch(`http://localhost:3000/estoque/${id}`, {
-      method: 'DELETE'
-    });
+// Função para remover um produto do estoque
+async function removeEstoque(id) {
+  await fetch(`http://localhost:3000/estoque/${id}`, {
+    method: 'DELETE'
+  });
   
-    loadEstoque(); // Atualiza a tabela
-  }
+  loadEstoque(); // Atualiza a tabela
+}
   
-  // Carregar estoque ao carregar a página
-  document.addEventListener('DOMContentLoaded', loadEstoque);
+// Carregar estoque ao carregar a página
+document.addEventListener('DOMContentLoaded', loadEstoque);
   
-
-  // Função para abrir o modal
+// Função para abrir o modal
 function openModal() {
   document.getElementById('modalAddProduct').style.display = 'block';
 }
@@ -155,14 +153,12 @@ function searchEstoque(term) {
     const codigo = row.cells[0].textContent.toLowerCase();
     const quantidade = row.cells[1].textContent.toLowerCase();
     const valorUnitario = row.cells[2].textContent.toLowerCase();
-    const quantidadeEmEstoque = row.cells[3].textContent.toLowerCase();
 
     // Verifica se alguma célula da linha contém o termo pesquisado
     if (
       codigo.includes(filter) ||
       quantidade.includes(filter) ||
-      valorUnitario.includes(filter) ||
-      quantidadeEmEstoque.includes(filter)
+      valorUnitario.includes(filter)
     ) {
       row.style.display = ''; // Mostra a linha se houver correspondência
     } else {
