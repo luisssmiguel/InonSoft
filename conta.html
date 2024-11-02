@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Conta</title>
+    <link rel="stylesheet" href="styles_conta.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Configurações da Conta</h1>
+        
+        <div class="user-info">
+            <h3>Informações do Usuário</h3>
+            <p><strong>Nome Completo:</strong> <span id="full-name">Carregando...</span></p>
+            <p><strong>Email:</strong> <span id="email">Carregando...</span></p>
+        </div>
+
+        <div class="password-change">
+            <h3>Alterar Senha</h3>
+            <label for="current-password">Senha Atual:</label>
+            <input type="password" id="current-password" placeholder="Digite sua senha atual">
+            
+            <label for="new-password">Nova Senha:</label>
+            <input type="password" id="new-password" placeholder="Digite a nova senha">
+            
+            <label for="confirm-password">Confirmar Nova Senha:</label>
+            <input type="password" id="confirm-password" placeholder="Confirme a nova senha">
+            
+            <button onclick="alterarSenha()">Alterar Senha</button>
+        </div>
+
+        <div class="actions">
+            <button onclick="voltarParaTelaInicial()">Voltar para a Tela Inicial</button>
+        </div>
+    </div>
+
+    <script src="conta.js"></script>
+</body>
+</html>

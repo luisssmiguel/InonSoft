@@ -31,11 +31,17 @@
                 <p id="total-amount">R$ 0.00</p> <!-- Valor total atualizado -->
             </div>
             <div class="botoes">
-                <button class="voltar">VOLTAR</button>
+                <button class="voltar" onclick="voltarParaTelaInicial()">VOLTAR</button>
                 <button class="finalizar" onclick="finalizarCompra()">FINALIZAR COMPRA</button>
             </div>
         </div>
     </div>
     <script src="script_compras.js"></script>
+    <script>
+        // Função para redirecionar para a tela inicial
+        function voltarParaTelaInicial() {
+            window.location.href = "tela_inicial.html";
+        }
+    </script>
 </body>
 </html>
