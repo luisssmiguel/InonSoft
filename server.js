@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt'); // Para hash de senhas
+const jwt = require('jsonwebtoken'); // Para autenticação com JWT
 const app = express();
 
 // Middlewares
@@ -21,44 +22,41 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) {
     console.error('Erro ao conectar ao banco de dados:', err);
-    process.exit(1); // Saída com erro se não conectar
+    process.exit(1);
   }
   console.log('Conectado ao banco de dados MySQL.');
 });
 
+// Middleware para autenticação com JWT
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, 'secreta-chave-jwt', (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.userId = user.userId;
+    next();
+  });
+}
+
 // Função de registro de usuário
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
-  console.log('Dados recebidos no registro:', { username, email });
-
-  // Verificar se o usuário ou e-mail já existe
   const checkUserQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
   connection.query(checkUserQuery, [username, email], async (err, results) => {
-    if (err) {
-      console.error('Erro ao verificar usuário:', err);
-      return res.status(500).send('Erro no servidor.');
-    }
+    if (err) return res.status(500).send('Erro no servidor.');
 
-    if (results.length > 0) {
-      console.log('Usuário ou e-mail já cadastrado.');
-      return res.status(400).send('Usuário ou e-mail já cadastrado.');
-    }
+    if (results.length > 0) return res.status(400).send('Usuário ou e-mail já cadastrado.');
 
-    // Criptografar senha e inserir usuário no banco de dados
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log('Senha criptografada:', hashedPassword);
-
       const insertUserQuery = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-      connection.query(insertUserQuery, [username, email, hashedPassword], (err, result) => {
-        if (err) {
-          console.error('Erro ao cadastrar usuário:', err);
-          return res.status(500).send('Erro no servidor ao cadastrar usuário.');
-        }
+      connection.query(insertUserQuery, [username, email, hashedPassword], (err) => {
+        if (err) return res.status(500).send('Erro ao cadastrar usuário.');
         res.status(201).send('Usuário cadastrado com sucesso!');
       });
-    } catch (error) {
-      console.error('Erro ao criptografar senha:', error);
+    } catch {
       res.status(500).send('Erro no servidor.');
     }
   });
@@ -75,7 +73,7 @@ app.post('/login', (req, res) => {
       console.error('Erro ao fazer login:', err);
       return res.status(500).send('Erro no servidor.');
     }
-    
+
     if (results.length === 0) {
       console.log('Usuário não encontrado.');
       return res.status(400).send('Nome de usuário ou senha incorretos.');
@@ -87,6 +85,11 @@ app.post('/login', (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
         console.log('Login bem-sucedido para o usuário:', username);
+
+        // Gera o token (sem retornar para o frontend)
+        const token = jwt.sign({ userId: user.id }, 'sua_chave_secreta', { expiresIn: '1h' });
+        
+        // Apenas envia a mensagem de sucesso
         res.status(200).send('Login bem-sucedido!');
       } else {
         console.log('Senha incorreta para o usuário:', username);
@@ -103,12 +106,8 @@ app.post('/login', (req, res) => {
 
 // Listar produtos do estoque
 app.get('/estoque', (req, res) => {
-  const query = 'SELECT * FROM estoque';
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao listar estoque:', err);
-      return res.status(500).send('Erro no servidor.');
-    }
+  connection.query('SELECT * FROM estoque', (err, results) => {
+    if (err) return res.status(500).send('Erro no servidor.');
     res.json(results);
   });
 });
@@ -116,19 +115,12 @@ app.get('/estoque', (req, res) => {
 // Adicionar produto ao estoque
 app.post('/estoque', (req, res) => {
   const { codigo, quantidade, valorUnitario } = req.body;
-
-  console.log("Dados recebidos para adicionar produto:", { codigo, quantidade, valorUnitario });
-
-  if (!codigo || quantidade == null || valorUnitario == null) {
+  if (!codigo || quantidade == null || valorUnitario == null)
     return res.status(400).send("Todos os campos (código, quantidade e valor unitário) são obrigatórios.");
-  }
 
   const query = 'INSERT INTO estoque (codigo, quantidade, valorUnitario) VALUES (?, ?, ?)';
-  connection.query(query, [codigo, quantidade, valorUnitario], (err, result) => {
-    if (err) {
-      console.error('Erro ao adicionar produto ao estoque:', err);
-      return res.status(500).send('Erro no servidor ao adicionar produto.');
-    }
+  connection.query(query, [codigo, quantidade, valorUnitario], (err) => {
+    if (err) return res.status(500).send('Erro ao adicionar produto.');
     res.status(201).send('Produto adicionado com sucesso!');
   });
 });
@@ -138,11 +130,8 @@ app.put('/estoque/:id', (req, res) => {
   const { id } = req.params;
   const { quantidade, valorUnitario } = req.body;
   const query = 'UPDATE estoque SET quantidade = ?, valorUnitario = ? WHERE id = ?';
-  connection.query(query, [quantidade, valorUnitario, id], (err, result) => {
-    if (err) {
-      console.error('Erro ao editar produto no estoque:', err);
-      return res.status(500).send('Erro no servidor.');
-    }
+  connection.query(query, [quantidade, valorUnitario, id], (err) => {
+    if (err) return res.status(500).send('Erro ao editar produto.');
     res.status(200).send('Produto atualizado com sucesso!');
   });
 });
@@ -150,25 +139,16 @@ app.put('/estoque/:id', (req, res) => {
 // Remover produto do estoque
 app.delete('/estoque/:id', (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM estoque WHERE id = ?';
-  connection.query(query, [id], (err, result) => {
-    if (err) {
-      console.error('Erro ao remover produto do estoque:', err);
-      return res.status(500).send('Erro no servidor.');
-    }
+  connection.query('DELETE FROM estoque WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).send('Erro ao remover produto.');
     res.status(200).send('Produto removido com sucesso!');
   });
 });
 
-// Funções para pedidos
-
 // Rota para listar produtos disponíveis para venda
 app.get('/produtos', (req, res) => {
   connection.query('SELECT * FROM produtos', (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar produtos:', err);
-      return res.status(500).send('Erro no servidor');
-    }
+    if (err) return res.status(500).send('Erro no servidor');
     res.json(results);
   });
 });
@@ -176,28 +156,17 @@ app.get('/produtos', (req, res) => {
 // Rota para finalizar pedido com tipo de venda
 app.post('/finalizar-pedido', (req, res) => {
   const { produtos, total, pagamento, desconto, tipoVenda } = req.body;
-
-  console.log("Tipo de Venda Recebido no Backend:", tipoVenda);
-
   const query = 'INSERT INTO pedidos (produtos, total, pagamento, desconto, tipo_venda) VALUES (?, ?, ?, ?, ?)';
-  connection.query(query, [JSON.stringify(produtos), total, pagamento, desconto, tipoVenda], (err, result) => {
-    if (err) {
-      console.error('Erro ao finalizar pedido:', err);
-      return res.status(500).send('Erro no servidor');
-    }
+  connection.query(query, [JSON.stringify(produtos), total, pagamento, desconto, tipoVenda], (err) => {
+    if (err) return res.status(500).send('Erro ao finalizar pedido');
     res.status(200).send('Pedido finalizado com sucesso');
   });
 });
 
 // Rota para listar produtos com baixa quantidade no estoque
 app.get('/produtos-baixa-quantidade', (req, res) => {
-  const query = 'SELECT codigo, quantidade FROM estoque WHERE quantidade < 5';
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar produtos com baixa quantidade:', err);
-      return res.status(500).json({ error: 'Erro ao buscar produtos com baixa quantidade.' });
-    }
-    console.log('Produtos com baixa quantidade encontrados:', results);
+  connection.query('SELECT codigo, quantidade FROM estoque WHERE quantidade < 5', (err, results) => {
+    if (err) return res.status(500).json({ error: 'Erro ao buscar produtos com baixa quantidade.' });
     res.json(results);
   });
 });
@@ -210,10 +179,7 @@ app.get('/vendas-diarias', (req, res) => {
     WHERE DATE(data_pedido) = CURDATE()
   `;
   connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar vendas diárias:', err);
-      return res.status(500).json({ error: 'Erro ao buscar vendas diárias.' });
-    }
+    if (err) return res.status(500).json({ error: 'Erro ao buscar vendas diárias.' });
     res.json(results[0]);
   });
 });
@@ -226,28 +192,46 @@ app.get('/vendas-diarias-separadas', (req, res) => {
     WHERE DATE(data_pedido) = CURDATE()
     GROUP BY tipo_venda
   `;
-
   connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar vendas diárias separadas:', err);
-      return res.status(500).json({ error: 'Erro ao buscar vendas diárias separadas.' });
-    }
-
-    // Formatar resultados para retornar valores separados
-    const vendas = {
-      delivery: 0,
-      lojaFisica: 0,
-    };
-
+    if (err) return res.status(500).json({ error: 'Erro ao buscar vendas diárias separadas.' });
+    
+    const vendas = { delivery: 0, lojaFisica: 0 };
     results.forEach(row => {
-      if (row.tipo_venda === 'Delivery') {
-        vendas.delivery = row.total_vendas;
-      } else if (row.tipo_venda === 'Loja Física') {
-        vendas.lojaFisica = row.total_vendas;
-      }
+      if (row.tipo_venda === 'Delivery') vendas.delivery = row.total_vendas;
+      else if (row.tipo_venda === 'Loja Física') vendas.lojaFisica = row.total_vendas;
     });
-
     res.json(vendas);
+  });
+});
+
+// Rota para obter informações do usuário logado
+app.get('/usuario-info', authenticateToken, (req, res) => {
+  const query = 'SELECT nomeCompleto, papel FROM users WHERE id = ?';
+  connection.query(query, [req.userId], (err, results) => {
+    if (err) return res.status(500).send('Erro no servidor.');
+    if (results.length === 0) return res.status(404).send('Usuário não encontrado.');
+    res.json(results[0]);
+  });
+});
+
+// Rota para alterar a senha do usuário logado
+app.post('/alterar-senha', authenticateToken, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const getPasswordQuery = 'SELECT password FROM users WHERE id = ?';
+  
+  connection.query(getPasswordQuery, [req.userId], async (err, results) => {
+    if (err) return res.status(500).send('Erro ao buscar senha do usuário.');
+    if (results.length === 0) return res.status(404).send('Usuário não encontrado.');
+
+    const isMatch = await bcrypt.compare(currentPassword, results[0].password);
+    if (!isMatch) return res.status(400).send('Senha atual incorreta.');
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const updatePasswordQuery = 'UPDATE users SET password = ? WHERE id = ?';
+    connection.query(updatePasswordQuery, [hashedPassword, req.userId], (err) => {
+      if (err) return res.status(500).send('Erro ao atualizar senha.');
+      res.status(200).send('Senha alterada com sucesso!');
+    });
   });
 });
 
