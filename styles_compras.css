@@ -11,14 +11,16 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    color: #333;
 }
 
 .container {
-    width: 80%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .finalizar-compra {
@@ -33,39 +35,55 @@ body {
 }
 
 h3 {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
     color: #333;
 }
 
-textarea, input {
-    height: 100px;
+input, select {
     padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-textarea {
-    resize: none;
+select {
+    height: 45px;
 }
 
-input {
-    height: 40px;
+.valor-total p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #002b80;
+}
+
+#product-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
 }
 
 .botoes {
     grid-column: 1 / span 2;
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 5px;
-    color: white;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .voltar {
@@ -76,12 +94,13 @@ button {
     background-color: #53d3aa;
 }
 
-#product-list {
-    max-height: 200px;
-    overflow-y: auto;
+button:hover {
+    opacity: 0.9;
 }
 
-#total-amount {
-    font-size: 1.5em;
-    font-weight: bold;
+/* Hover effects for better interactivity */
+input:focus, select:focus {
+    border-color: #002b80;
+    box-shadow: 0px 0px 5px rgba(0, 43, 128, 0.3);
+    outline: none;
 }

@@ -11,11 +11,11 @@
         <div class="finalizar-compra">
             <div class="produtos">
                 <h3>PRODUTOS</h3>
-                <div id="product-list"></div> <!-- Lista de produtos dinâmicos -->
+                <div id="product-list"></div>
             </div>
             <div class="detalhes-pagamento">
                 <h3>PAGAMENTO</h3>
-                <input type="text" id="payment-method" placeholder="Crédito, Débito, Pix e Dinheiro">
+                <input type="text" id="payment-method" placeholder="Ex: Crédito, Débito, Pix e Dinheiro">
                 
                 <h3>TIPO DE VENDA</h3>
                 <select id="sale-type">
@@ -24,11 +24,11 @@
                 </select>
                 
                 <h3>DESCONTO</h3>
-                <input type="number" id="discount" placeholder="Porcentagem e/ou R$" oninput="calculateTotal()">
+                <input type="number" id="discount" placeholder="Digite % ou valor em R$" oninput="calculateTotal()">
             </div>
             <div class="valor-total">
                 <h3>VALOR TOTAL</h3>
-                <p id="total-amount">R$ 0.00</p> <!-- Valor total atualizado -->
+                <p id="total-amount">R$ 0.00</p>
             </div>
             <div class="botoes">
                 <button class="voltar" onclick="voltarParaTelaInicial()">VOLTAR</button>
@@ -38,7 +38,6 @@
     </div>
     <script src="script_compras.js"></script>
     <script>
-        // Função para redirecionar para a tela inicial
         function voltarParaTelaInicial() {
             window.location.href = "tela_inicial.html";
         }
