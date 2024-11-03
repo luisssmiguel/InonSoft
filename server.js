@@ -31,14 +31,16 @@ connection.connect((err) => {
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
+
   if (!token) return res.sendStatus(401);
 
-  jwt.verify(token, 'secreta-chave-jwt', (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.userId = user.userId;
-    next();
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.userId = user.userId; // Adiciona o ID do usuário ao objeto de requisição
+      next();
   });
 }
+
 
 // Função de registro de usuário
 app.post('/register', async (req, res) => {
@@ -208,9 +210,14 @@ app.get('/vendas-diarias-separadas', (req, res) => {
 app.get('/usuario-info', authenticateToken, (req, res) => {
   const query = 'SELECT nomeCompleto, papel FROM users WHERE id = ?';
   connection.query(query, [req.userId], (err, results) => {
-    if (err) return res.status(500).send('Erro no servidor.');
-    if (results.length === 0) return res.status(404).send('Usuário não encontrado.');
-    res.json(results[0]);
+      if (err) {
+          console.error('Erro ao buscar informações do usuário:', err);
+          return res.status(500).send('Erro no servidor.');
+      }
+      if (results.length === 0) {
+          return res.status(404).send('Usuário não encontrado.');
+      }
+      res.json(results[0]);
   });
 });
 

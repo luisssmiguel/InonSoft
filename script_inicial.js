@@ -3,6 +3,8 @@ async function carregarInformacoesUsuario() {
     try {
         const token = localStorage.getItem('token'); // Obter o token armazenado no login
 
+        if (!token) throw new Error('Usuário não autenticado');
+
         const response = await fetch('http://localhost:3000/usuario-info', {
             method: 'GET',
             headers: {
@@ -22,5 +24,5 @@ async function carregarInformacoesUsuario() {
     }
 }
 
-// Chamar a função ao carregar a página
+// Executa ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarInformacoesUsuario);

@@ -47,8 +47,6 @@ async function loginUser() {
   const username = document.getElementById('loginUsername').value;
   const password = document.getElementById('loginPassword').value;
 
-  console.log('Tentando fazer login com:', { username, password });
-
   try {
     const response = await fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -56,18 +54,31 @@ async function loginUser() {
       body: JSON.stringify({ username, password })
     });
 
-    const result = await response.text();
-    displayMessage(result, response.ok);
+    // Verifica o tipo de resposta do servidor
+    const isJson = response.headers.get('content-type')?.includes('application/json');
+    const data = isJson ? await response.json() : await response.text();
 
     if (response.ok) {
+      // Armazena o token e o nome do usuário no localStorage, se o retorno for JSON
+      if (isJson && data.token) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', username);
+      }
+
+      displayMessage('Login bem-sucedido!', true);
+
+      // Redireciona para a tela inicial
       setTimeout(() => { window.location.href = "tela_inicial.html"; }, 1000);
+    } else {
+      // Exibe a mensagem de erro conforme o tipo de resposta do servidor
+      const message = isJson ? data.message : data;
+      displayMessage(message, false);
     }
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     displayMessage('Erro ao fazer login. Por favor, tente novamente.', false);
   }
 }
-
 // Alterna entre os formulários de login e cadastro
 document.querySelector("#sign-up-btn")?.addEventListener('click', () => {
   document.querySelector(".container").classList.add("sign-up-mode");
