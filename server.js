@@ -194,14 +194,26 @@ app.get('/vendas-diarias-separadas', (req, res) => {
     WHERE DATE(data_pedido) = CURDATE()
     GROUP BY tipo_venda
   `;
+
   connection.query(query, (err, results) => {
-    if (err) return res.status(500).json({ error: 'Erro ao buscar vendas diárias separadas.' });
-    
-    const vendas = { delivery: 0, lojaFisica: 0 };
+    if (err) {
+      console.error('Erro ao buscar vendas diárias separadas:', err);
+      return res.status(500).json({ error: 'Erro ao buscar vendas diárias separadas.' });
+    }
+
+    const vendas = {
+      delivery: 0,
+      lojaFisica: 0,
+    };
+
     results.forEach(row => {
-      if (row.tipo_venda === 'Delivery') vendas.delivery = row.total_vendas;
-      else if (row.tipo_venda === 'Loja Física') vendas.lojaFisica = row.total_vendas;
+      if (row.tipo_venda === 'Delivery') {
+        vendas.delivery = row.total_vendas;
+      } else if (row.tipo_venda === 'Loja Física') {
+        vendas.lojaFisica = row.total_vendas;
+      }
     });
+
     res.json(vendas);
   });
 });

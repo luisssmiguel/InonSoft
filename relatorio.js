@@ -3,14 +3,14 @@ async function loadLowStockProducts() {
   try {
       const response = await fetch('http://localhost:3000/produtos-baixa-quantidade');
       if (!response.ok) throw new Error('Erro ao carregar produtos com baixa quantidade');
-      
+
       const produtos = await response.json();
       const lowStockList = document.getElementById('lowStockList');
-      lowStockList.innerHTML = ''; // Limpa a lista antes de adicionar os itens
+      lowStockList.innerHTML = '';
 
       produtos.forEach(produto => {
           const listItem = document.createElement('li');
-          listItem.textContent = produto.codigo; // Exibe apenas o código do produto
+          listItem.textContent = produto.codigo;
           lowStockList.appendChild(listItem);
       });
   } catch (error) {
@@ -18,15 +18,18 @@ async function loadLowStockProducts() {
   }
 }
 
-// Função para carregar vendas diárias separadas por tipo de venda (loja física e delivery)
+// Função para carregar vendas diárias separadas por tipo
 async function loadDailySalesByType() {
   try {
       const response = await fetch('http://localhost:3000/vendas-diarias-separadas');
-      if (!response.ok) throw new Error('Erro ao carregar vendas diárias separadas');
-      
-      const { delivery, lojaFisica } = await response.json();
+      if (!response.ok) throw new Error('Erro ao carregar vendas diárias');
 
-      // Atualizar o HTML com os valores
+      const data = await response.json();
+      
+      // Verificar se os valores são números, senão atribuir 0
+      const delivery = parseFloat(data.delivery) || 0;
+      const lojaFisica = parseFloat(data.lojaFisica) || 0;
+
       document.getElementById('dailySales').textContent = `R$ ${delivery.toFixed(2)}`;
       document.getElementById('storeSales').textContent = `R$ ${lojaFisica.toFixed(2)}`;
   } catch (error) {
@@ -34,7 +37,7 @@ async function loadDailySalesByType() {
   }
 }
 
-// Carregar todos os dados ao abrir a página
+// Carregar dados ao abrir a página
 document.addEventListener('DOMContentLoaded', () => {
   loadLowStockProducts();
   loadDailySalesByType();

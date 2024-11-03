@@ -40,21 +40,15 @@
             </header>
 
             <section class="report-section">
-                <h2>Relatórios de Vendas</h2>
-                <select>
-                    <option value="diario">Diário</option>
-                    <option value="mensal">Mensal</option>
-                    <option value="anual">Anual</option>
-                </select>
-
+                <h2>Relatórios de Vendas Diárias por Tipo</h2>
                 <canvas id="salesChart"></canvas>
             </section>
 
             <div class="cards">
                 <div class="card">
-                  <h3>Estoque</h3>
-                  <p>Quantidade baixa</p>
-                  <ul id="lowStockList"></ul> <!-- Lista será preenchida dinamicamente -->
+                    <h3>Estoque</h3>
+                    <p>Quantidade baixa</p>
+                    <ul id="lowStockList"></ul>
                 </div>
                 <div class="card">
                     <h3>Vendas Delivery</h3>
@@ -67,23 +61,60 @@
             </div>
         </main>
     </div>
+
     <script src="relatorio.js"></script>
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctx = document.getElementById('salesChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'line', 
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                datasets: [{
-                    label: 'Vendas',
-                    data: [1000, 1500, 2000, 1800, 2300, 2800, 3200],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false
-                }]
+        async function loadDailySalesChart() {
+            try {
+                const response = await fetch('http://localhost:3000/vendas-diarias-separadas');
+                const data = await response.json();
+
+                const deliverySales = data.delivery || 0;
+                const storeSales = data.lojaFisica || 0;
+
+                const ctx = document.getElementById('salesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Delivery', 'Loja Física'],
+                        datasets: [{
+                            label: 'Vendas Diárias',
+                            data: [deliverySales, storeSales],
+                            backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Total de Vendas (R$)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true
+                            },
+                            title: {
+                                display: true,
+                                text: 'Vendas Diárias por Tipo'
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Erro ao carregar dados do gráfico:', error);
             }
-        });
+        }
+
+        // Carregar dados e exibir o gráfico ao carregar a página
+        document.addEventListener('DOMContentLoaded', loadDailySalesChart);
     </script>
 </body>
 </html>
