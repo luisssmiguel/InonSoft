@@ -40,7 +40,7 @@
             </header>
 
             <section class="report-section">
-                <h2>Relatórios de Vendas Diárias por Tipo</h2>
+                <h2>Tendência de Vendas ao Longo do Mês</h2>
                 <canvas id="salesChart"></canvas>
             </section>
 
@@ -48,7 +48,7 @@
                 <div class="card">
                     <h3>Estoque</h3>
                     <p>Quantidade baixa</p>
-                    <ul id="lowStockList"></ul>
+                    <ul id="lowStockList"></ul> <!-- Lista será preenchida dinamicamente -->
                 </div>
                 <div class="card">
                     <h3>Vendas Delivery</h3>
@@ -66,29 +66,36 @@
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        async function loadDailySalesChart() {
+        async function loadMonthlySalesTrend() {
             try {
-                const response = await fetch('http://localhost:3000/vendas-diarias-separadas');
+                const response = await fetch('http://localhost:3000/vendas-mensais');
                 const data = await response.json();
 
-                const deliverySales = data.delivery || 0;
-                const storeSales = data.lojaFisica || 0;
+                const days = data.map(item => item.dia); // Dias do mês
+                const totalSales = data.map(item => item.total_vendas); // Totais de vendas
 
                 const ctx = document.getElementById('salesChart').getContext('2d');
                 new Chart(ctx, {
-                    type: 'bar',
+                    type: 'line',
                     data: {
-                        labels: ['Delivery', 'Loja Física'],
+                        labels: days,
                         datasets: [{
                             label: 'Vendas Diárias',
-                            data: [deliverySales, storeSales],
-                            backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
-                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
-                            borderWidth: 1
+                            data: totalSales,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: true,
+                            tension: 0.4
                         }]
                     },
                     options: {
                         scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Dias do Mês'
+                                }
+                            },
                             y: {
                                 beginAtZero: true,
                                 title: {
@@ -103,7 +110,7 @@
                             },
                             title: {
                                 display: true,
-                                text: 'Vendas Diárias por Tipo'
+                                text: 'Tendência de Vendas ao Longo do Mês'
                             }
                         }
                     }
@@ -114,7 +121,7 @@
         }
 
         // Carregar dados e exibir o gráfico ao carregar a página
-        document.addEventListener('DOMContentLoaded', loadDailySalesChart);
+        document.addEventListener('DOMContentLoaded', loadMonthlySalesTrend);
     </script>
 </body>
 </html>

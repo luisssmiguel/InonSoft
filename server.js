@@ -254,6 +254,25 @@ app.post('/alterar-senha', authenticateToken, async (req, res) => {
   });
 });
 
+// Rota para buscar o valor total de vendas diárias para o mês atual
+app.get('/vendas-mensais', (req, res) => {
+  const query = `
+      SELECT DAY(data_pedido) AS dia, IFNULL(SUM(total), 0) AS total_vendas
+      FROM pedidos
+      WHERE MONTH(data_pedido) = MONTH(CURDATE()) AND YEAR(data_pedido) = YEAR(CURDATE())
+      GROUP BY dia
+      ORDER BY dia
+  `;
+  connection.query(query, (err, results) => {
+      if (err) {
+          console.error('Erro ao buscar vendas mensais:', err);
+          return res.status(500).json({ error: 'Erro ao buscar vendas mensais.' });
+      }
+      res.json(results);
+  });
+});
+
+
 // Iniciar o servidor na porta 3000
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
