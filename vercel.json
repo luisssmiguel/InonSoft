@@ -1,5 +1,5 @@
 {
-    "rewrites": [
-      { "source": "/", "destination": "/landing_page.html" }
-    ]
-  }
+  "redirects": [
+    { "source": "/", "destination": "/landing_page.html", "permanent": true }
+  ]
+}
