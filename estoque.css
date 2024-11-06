@@ -19,13 +19,16 @@ body {
 /* Barra lateral (sidebar) */
 .sidebar {
     width: 250px;
-    background-color: #000;
+    background-color: #000; /* Fundo preto */
     color: #fff;
     height: 100vh;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Mantém o conteúdo no topo */
+    align-items: center;
+    position: fixed; /* Mantém a sidebar fixa na tela */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra leve */
 }
 
 .sidebar .logo {
@@ -40,17 +43,21 @@ body {
 }
 
 .sidebar nav {
+    width: 100%; /* Expande o menu para toda a largura da sidebar */
     flex-grow: 1;
 }
 
+/* Estilo dos itens do menu */
 .menu-item {
     display: flex;
     align-items: center;
+    width: 100%;
     padding: 15px 20px;
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
     transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 .menu-item i {
@@ -58,7 +65,27 @@ body {
 }
 
 .menu-item:hover {
-    background-color: #333;
+    background-color: #007BFF; /* Cor de fundo ao passar o mouse */
+}
+
+/* Opções de conta na parte inferior da sidebar */
+.account-options {
+    width: 100%; /* Mantém as opções da conta na largura total da sidebar */
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.account-options .menu-item {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.account-options .menu-item:hover {
+    background-color: #333; /* Fundo ao passar o mouse */
 }
 
 /* Conteúdo principal */
@@ -66,6 +93,7 @@ body {
     flex-grow: 1;
     padding: 40px;
     background-color: #f9f9f9;
+    margin-left: 250px; /* Para compensar a largura da sidebar fixa */
 }
 
 /* Header do Usuário */
@@ -92,7 +120,6 @@ body {
     color: #777;
     margin-left: 10px;
 }
-
 
 /* Barra de Ações */
 .actions {

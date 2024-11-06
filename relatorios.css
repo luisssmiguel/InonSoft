@@ -20,7 +20,7 @@ body {
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: #1a1a1a;
+    background-color: #000000;
     color: #fff;
     position: fixed;
     display: flex;

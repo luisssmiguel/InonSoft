@@ -1,26 +1,29 @@
 // Função para carregar informações do usuário logado
 async function carregarInformacoesUsuario() {
-  try {
-      const token = localStorage.getItem('token'); // Obter o token armazenado no login
-      if (!token) throw new Error('Usuário não autenticado');
+    try {
+        const token = localStorage.getItem('token'); // Obter o token armazenado no login
+        console.log("Token JWT encontrado:", token); // Log para verificar o token
 
-      const response = await fetch('http://localhost:3000/usuario-info', {
-          method: 'GET',
-          headers: {
-              'Authorization': `Bearer ${token}`
-          }
-      });
+        if (!token) throw new Error('Usuário não autenticado');
 
-      if (!response.ok) throw new Error('Erro ao carregar informações do usuário');
+        const response = await fetch('http://localhost:3000/usuario-info', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-      const data = await response.json();
+        if (!response.ok) {
+            console.error("Erro ao carregar informações do usuário:", response.statusText);
+            throw new Error('Erro ao carregar informações do usuário');
+        }
 
-      // Atualizar o HTML com o nome e o papel do usuário
-      document.querySelector('.user-details h4').textContent = data.nomeCompleto;
-      document.querySelector('.user-details p').textContent = data.papel;
-  } catch (error) {
-      console.error('Erro ao carregar informações do usuário:', error);
-  }
+        const data = await response.json();
+        document.getElementById('user-name').textContent = data.nomeCompleto;
+        document.getElementById('user-role').textContent = data.papel;
+    } catch (error) {
+        console.error('Erro ao carregar informações do usuário:', error);
+    }
 }
 
 // Função para carregar produtos com baixa quantidade
@@ -63,58 +66,66 @@ async function loadDailySalesByType() {
 }
 
 // Função para carregar o gráfico de tendência de vendas mensais
+let salesChart; // Variável global para armazenar a instância do gráfico
+
 async function loadMonthlySalesTrend() {
-  try {
-      const response = await fetch('http://localhost:3000/vendas-mensais');
-      const data = await response.json();
+    try {
+        const response = await fetch('http://localhost:3000/vendas-mensais');
+        const data = await response.json();
 
-      const days = data.map(item => item.dia); // Dias do mês
-      const totalSales = data.map(item => item.total_vendas); // Totais de vendas
+        const days = data.map(item => item.dia);
+        const totalSales = data.map(item => item.total_vendas);
 
-      const ctx = document.getElementById('salesChart').getContext('2d');
-      new Chart(ctx, {
-          type: 'line',
-          data: {
-              labels: days,
-              datasets: [{
-                  label: 'Vendas Diárias',
-                  data: totalSales,
-                  borderColor: 'rgba(75, 192, 192, 1)',
-                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                  fill: true,
-                  tension: 0.4
-              }]
-          },
-          options: {
-              scales: {
-                  x: {
-                      title: {
-                          display: true,
-                          text: 'Dias do Mês'
-                      }
-                  },
-                  y: {
-                      beginAtZero: true,
-                      title: {
-                          display: true,
-                          text: 'Total de Vendas (R$)'
-                      }
-                  }
-              },
-              plugins: {
-                  legend: {
-                      display: true
-                  },
-                  title: {
-                      display: true,
-                      text: 'Tendência de Vendas ao Longo do Mês'
-                  }
-              }
-          }
-      });
-  } catch (error) {
-      console.error('Erro ao carregar dados do gráfico:', error);
-  }
+        const ctx = document.getElementById('salesChart').getContext('2d');
+
+        // Destroi o gráfico anterior, se existir, antes de criar um novo
+        if (salesChart) {
+            salesChart.destroy();
+        }
+
+        salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: 'Vendas Diárias',
+                    data: totalSales,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Dias do Mês'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Total de Vendas (R$)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tendência de Vendas ao Longo do Mês'
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Erro ao carregar dados do gráfico:', error);
+    }
 }
 
 // Carregar dados ao abrir a página
