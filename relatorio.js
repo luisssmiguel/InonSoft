@@ -1,3 +1,28 @@
+// Função para carregar informações do usuário logado
+async function carregarInformacoesUsuario() {
+  try {
+      const token = localStorage.getItem('token'); // Obter o token armazenado no login
+      if (!token) throw new Error('Usuário não autenticado');
+
+      const response = await fetch('http://localhost:3000/usuario-info', {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+      });
+
+      if (!response.ok) throw new Error('Erro ao carregar informações do usuário');
+
+      const data = await response.json();
+
+      // Atualizar o HTML com o nome e o papel do usuário
+      document.querySelector('.user-details h4').textContent = data.nomeCompleto;
+      document.querySelector('.user-details p').textContent = data.papel;
+  } catch (error) {
+      console.error('Erro ao carregar informações do usuário:', error);
+  }
+}
+
 // Função para carregar produtos com baixa quantidade
 async function loadLowStockProducts() {
   try {
@@ -25,7 +50,7 @@ async function loadDailySalesByType() {
       if (!response.ok) throw new Error('Erro ao carregar vendas diárias');
 
       const data = await response.json();
-      
+
       // Verificar se os valores são números, senão atribuir 0
       const delivery = parseFloat(data.delivery) || 0;
       const lojaFisica = parseFloat(data.lojaFisica) || 0;
@@ -37,8 +62,65 @@ async function loadDailySalesByType() {
   }
 }
 
+// Função para carregar o gráfico de tendência de vendas mensais
+async function loadMonthlySalesTrend() {
+  try {
+      const response = await fetch('http://localhost:3000/vendas-mensais');
+      const data = await response.json();
+
+      const days = data.map(item => item.dia); // Dias do mês
+      const totalSales = data.map(item => item.total_vendas); // Totais de vendas
+
+      const ctx = document.getElementById('salesChart').getContext('2d');
+      new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: days,
+              datasets: [{
+                  label: 'Vendas Diárias',
+                  data: totalSales,
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  fill: true,
+                  tension: 0.4
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Dias do Mês'
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Total de Vendas (R$)'
+                      }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: true
+                  },
+                  title: {
+                      display: true,
+                      text: 'Tendência de Vendas ao Longo do Mês'
+                  }
+              }
+          }
+      });
+  } catch (error) {
+      console.error('Erro ao carregar dados do gráfico:', error);
+  }
+}
+
 // Carregar dados ao abrir a página
 document.addEventListener('DOMContentLoaded', () => {
+  carregarInformacoesUsuario();
   loadLowStockProducts();
   loadDailySalesByType();
+  loadMonthlySalesTrend();
 });

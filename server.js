@@ -88,11 +88,11 @@ app.post('/login', (req, res) => {
       if (isMatch) {
         console.log('Login bem-sucedido para o usuário:', username);
 
-        // Gera o token (sem retornar para o frontend)
+        // Gera o token e inclui o userId
         const token = jwt.sign({ userId: user.id }, 'sua_chave_secreta', { expiresIn: '1h' });
-        
-        // Apenas envia a mensagem de sucesso
-        res.status(200).send('Login bem-sucedido!');
+
+        // Envia o token para o frontend como JSON
+        res.status(200).json({ token }); // Retorna o token para o frontend
       } else {
         console.log('Senha incorreta para o usuário:', username);
         res.status(400).send('Nome de usuário ou senha incorretos.');

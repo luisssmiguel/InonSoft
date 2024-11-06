@@ -33,6 +33,7 @@ async function registerUser() {
     const result = await response.text();
     displayMessage(result, response.ok);
 
+    // Alterna para o formulário de login após registro bem-sucedido
     if (response.ok) {
       document.querySelector(".container").classList.remove("sign-up-mode");
     }
@@ -42,7 +43,6 @@ async function registerUser() {
   }
 }
 
-// Função para fazer login do usuário
 async function loginUser() {
   const username = document.getElementById('loginUsername').value;
   const password = document.getElementById('loginPassword').value;
@@ -58,19 +58,21 @@ async function loginUser() {
     const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : await response.text();
 
+    console.log("Resposta da API:", data); // Adiciona uma mensagem de depuração
+
     if (response.ok) {
-      // Armazena o token e o nome do usuário no localStorage, se o retorno for JSON
+      // Verifique se o token foi retornado
       if (isJson && data.token) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token); // Salva o token no localStorage
         localStorage.setItem('username', username);
+        console.log("Token armazenado:", data.token); // Confirma o armazenamento do token
+      } else {
+        console.warn("Token não encontrado na resposta da API.");
       }
 
       displayMessage('Login bem-sucedido!', true);
-
-      // Redireciona para a tela inicial
       setTimeout(() => { window.location.href = "tela_inicial.html"; }, 1000);
     } else {
-      // Exibe a mensagem de erro conforme o tipo de resposta do servidor
       const message = isJson ? data.message : data;
       displayMessage(message, false);
     }

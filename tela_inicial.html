@@ -24,7 +24,18 @@
             <div class="account-options">
                 <a href="conta.html" class="menu-item"><i class="fas fa-user"></i> Conta</a>
                 <a href="#" class="menu-item"><i class="fas fa-question-circle"></i> Suporte</a>
-                <a href="#" class="menu-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                <a href="#" class="menu-item" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+
+<script>
+  function logoutUser() {
+    // Limpa o localStorage
+    localStorage.removeItem("username");
+    localStorage.removeItem("token"); // Remove o token de autenticação
+
+    // Redireciona para a página de login
+    window.location.href = "tela_login.html";
+  }
+</script>
             </div>
         </aside>
         <main class="main-content">
