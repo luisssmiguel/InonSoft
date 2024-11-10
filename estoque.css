@@ -85,7 +85,7 @@ body {
 }
 
 .account-options .menu-item:hover {
-    background-color: #333; /* Fundo ao passar o mouse */
+    background-color: #007BFF; /* Fundo ao passar o mouse */
 }
 
 /* Conteúdo principal */

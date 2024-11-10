@@ -1,3 +1,4 @@
+/* Reset de margens, espaçamentos e bordas */
 * {
     margin: 0;
     padding: 0;
@@ -5,42 +6,61 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    color: #333;
 }
 
+/* Container principal */
 .container {
     display: flex;
 }
 
+/* Barra lateral (sidebar) */
 .sidebar {
-    background-color: #000;
-    color: white;
     width: 250px;
+    background-color: #000; /* Fundo preto */
+    color: #fff;
     height: 100vh;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Mantém o conteúdo no topo */
+    align-items: center;
+    position: fixed; /* Mantém a sidebar fixa na tela */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra leve */
 }
 
-.logo img {
+.sidebar .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar .logo img {
     width: 150px;
-    margin: 20px;
+    height: auto;
+    margin-bottom: 20px;
 }
 
-.menu {
+.sidebar nav {
+    width: 100%; /* Expande o menu para toda a largura da sidebar */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    padding: 0 20px;
+    align-items: center;
 }
 
+/* Estilo dos itens do menu */
 .menu-item {
-    color: white;
-    text-decoration: none;
-    padding: 15px 0;
     display: flex;
     align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
     font-size: 16px;
+    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 .menu-item i {
@@ -48,54 +68,217 @@ body {
 }
 
 .menu-item:hover {
-    background-color: #444;
+    background-color: #007BFF; /* Cor de fundo ao passar o mouse */
 }
 
+/* Opções de conta na parte inferior da sidebar */
 .account-options {
-    padding: 20px;
-    border-top: 1px solid #444;
-}
-
-.main-content {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
-}
-
-.header {
+    width: 100%; /* Mantém as opções da conta na largura total da sidebar */
+    padding-bottom: 20px;
     display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-}
-
-.user-info {
-    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.user-photo {
+.account-options .menu-item {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.account-options .menu-item:hover {
+    background-color: #007BFF; /* Fundo ao passar o mouse */
+}
+
+/* Conteúdo principal */
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: #f9f9f9;
+    margin-left: 250px; /* Para compensar a largura da sidebar fixa */
+}
+
+/* Header do Usuário */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-right: 15px;
 }
 
-.gallery {
-    padding: 20px;
-}
-
-.gallery h2 {
+.header h2 {
     font-size: 24px;
-    margin-bottom: 20px;
+    color: #333;
 }
 
-.gallery-items {
+.header span {
+    font-size: 14px;
+    color: #777;
+    margin-left: 10px;
+}
+
+/* Barra de Ações */
+.actions {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-.gallery-items img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
+.actions input[type="search"] {
+    padding: 10px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-button i {
+    margin-right: 5px;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* Tabela de Estoque */
+.table-section {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 15px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+thead {
+    background-color: #f7f7f7;
+}
+
+/* Botões de ação dentro da tabela */
+.table-section table td .edit-button,
+.table-section table td .remove-button {
+    margin-right: 8px;
+}
+
+.table-section table td button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.edit-button {
+    background-color: #FFA500;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #e69500;
+}
+
+.remove-button {
+    background-color: #FF0000;
+    color: white;
+}
+
+.remove-button:hover {
+    background-color: #cc0000;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-content input {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
 }

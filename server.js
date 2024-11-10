@@ -3,11 +3,14 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt'); // Para hash de senhas
 const jwt = require('jsonwebtoken'); // Para autenticação com JWT
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
 const app = express();
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuração do banco de dados MySQL
 const connection = mysql.createConnection({
@@ -27,6 +30,37 @@ connection.connect((err) => {
   console.log('Conectado ao banco de dados MySQL.');
 });
 
+// Configuração do transportador do Nodemailer
+const transporter = nodemailer.createTransport({
+  service: "gmail", // Substitua pelo seu provedor de e-mail, ex: "gmail"
+  auth: {
+    user: "lluis.teste10@gmailcom", // Coloque seu e-mail aqui
+    pass: "louis12_%" // Coloque a senha do seu e-mail aqui
+  }
+});
+
+// Rota para envio de mensagens de contato
+app.post('/contact', (req, res) => {
+  const { nome, telefone, email, mensagem } = req.body;
+
+  // Configura as opções de envio do e-mail
+  const mailOptions = {
+    from: email,
+    to: 'lluis.teste10@gmai.com', // Endereço de e-mail que receberá as mensagens de contato
+    subject: `Mensagem de Contato de ${nome}`,
+    text: `Nome: ${nome}\nTelefone: ${telefone}\nE-mail: ${email}\nMensagem: ${mensagem}`
+  };
+
+  // Envia o e-mail
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log("Erro ao enviar e-mail:", error);
+      return res.status(500).send("Erro ao enviar mensagem.");
+    }
+    console.log("E-mail enviado: " + info.response);
+    res.status(200).send("Mensagem enviada com sucesso!");
+  });
+});
 // Middleware para autenticação com JWT
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
