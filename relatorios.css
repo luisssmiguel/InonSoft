@@ -190,3 +190,41 @@ canvas {
 .restock-btn:hover {
     background-color: #218838;
 }
+
+/* Filtros de Mês e Ano */
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-container label {
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-container select {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+}
+
+.filter-container button {
+    padding: 8px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-container button:hover {
+    background-color: #0056b3;
+}

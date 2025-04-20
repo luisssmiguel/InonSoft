@@ -30,9 +30,11 @@
 
         <div class="main-content">
             <div class="header">
-                <img src="img/user.jpg" alt="Admin" class="user-img">
-                <h2>Emily Zaponi</h2>
-                <span>Administrador</span>
+                <img src="img/user.jpg" alt="Foto de perfil" class="user-img">
+                <div class="user-info">
+                    <h4 id="user-name">Nome do Usuário</h4>
+                    <p id="user-role">Função</p>
+                </div>
             </div>
 
             <div class="actions">
@@ -83,6 +85,13 @@
             </div>
         </div>
     </div>
+    <script src="auth.js"></script>
     <script src="estoque.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarInformacoesUsuario();
+            // Outras funções específicas da página
+        });
+    </script>
 </body>
 </html>

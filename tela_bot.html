@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot</title>
+    <link rel="stylesheet" href="styles_bot.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Interface Principal -->
+        <div class="whatsapp-interface">
+            <!-- Lista de Contatos (Visível apenas em Desktop ou Mobile quando chat não está aberto) -->
+            <div class="contacts-section" id="contactsSection">
+                <div class="header">
+                    <h1>WhatsApp Bot</h1>
+                    <div class="connection-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Offline</span>
+                    </div>
+                </div>
+                <div class="contacts-list" id="contactsList">
+                    <!-- Contatos serão inseridos aqui via JavaScript -->
+                </div>
+                <div class="connect-button-container">
+                    <button id="connectWhatsApp" class="connect-button">
+                        Conectar WhatsApp
+                    </button>
+                </div>
+            </div>
+
+            <!-- Área do Chat -->
+            <div class="chat-section" id="chatSection">
+                <div class="chat-header" id="chatHeader">
+                    <button class="back-button" id="backButton">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="chat-contact-info">
+                        <div class="contact-avatar">👤</div>
+                        <div class="contact-name">Selecione um contato</div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Mensagens serão inseridas aqui via JavaScript -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="messageInput" placeholder="Digite uma mensagem" disabled>
+                    <button id="sendMessage" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Conexão QR Code -->
+        <div class="modal" id="qrModal">
+            <div class="modal-content">
+                <span class="close-button" id="closeModal">&times;</span>
+                <h2>Conecte seu WhatsApp</h2>
+                <div class="qr-container" id="qrContainer">
+                    <!-- QR Code será inserido aqui -->
+                </div>
+                <p class="connection-instructions">
+                    Abra o WhatsApp no seu celular e escaneie o código QR
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode.js/lib/qrcode.min.js"></script>
+    <script src="script_bot.js"></script>
+</body>
+</html>

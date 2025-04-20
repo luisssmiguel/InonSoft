@@ -35,38 +35,76 @@ connection.connect((err) => {
   console.log('Conectado ao banco de dados MySQL.');
 });
 
-// Rota para iniciar o Venom-Bot apenas quando solicitado
-app.get('/start-bot', (req, res) => {
-  if (!client) { // Verifica se o bot ainda não foi iniciado
-    venom
-      .create({
-        session: 'sessionName',
-        folderSession: './sessions',
-        catchQR: (base64Qr) => {
-          qrCodeImage = base64Qr; // Armazena o QR code em formato base64
-          console.log('QR code atualizado'); // Apenas para debug
-        },
-      })
-      .then((newClient) => {
-        client = newClient;
-        startBot(client); // Inicia a função de atendimento do bot
-        res.json({ message: 'Bot iniciado com sucesso.' });
-      })
-      .catch((error) => {
-        console.log('Erro ao iniciar o bot:', error);
-        res.status(500).json({ message: 'Erro ao iniciar o bot.' });
-      });
+// Rota para iniciar o Venom-Bot
+app.get('/start-bot', async (req, res) => {
+  if (client) {
+    return res.json({ message: 'Bot já está iniciado.' });
+  }
+
+  try {
+    // Espera até o QR Code ser gerado
+    await new Promise((resolve, reject) => {
+      venom
+        .create({
+          session: 'sessionName',
+          folderSession: './sessions',
+          headless: 'new',
+          executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+          browserArgs: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-extensions',
+            '--headless=new'
+          ],
+          catchQR: (base64Qr) => {
+            qrCodeImage = base64Qr;
+            console.log('✅ QR code gerado e armazenado!');
+            resolve(); // 🔥 libera o andamento da rota quando o QR é gerado
+          }
+        })
+        .then((newClient) => {
+          client = newClient;
+          startBot(client);
+        })
+        .catch((error) => {
+          console.error('Erro ao iniciar o bot:', error);
+          reject(error);
+        });
+    });
+
+    // Só executa depois que o QR code foi realmente capturado
+    res.json({ message: 'Bot iniciado e QR code pronto!' });
+
+  } catch (error) {
+    console.error('Erro geral ao iniciar o bot:', error);
+    res.status(500).json({ message: 'Erro ao iniciar o bot.' });
+  }
+});
+// Rota para pegar o QR code
+app.get('/qr-code', (req, res) => {
+  if (qrCodeImage) {
+    res.json({ qrCode: qrCodeImage });
   } else {
-    res.json({ message: 'Bot já está iniciado.' });
+    res.status(500).json({ message: 'QR code não disponível no servidor.' });
   }
 });
 
+// Rota para status do bot
+app.get('/status', (req, res) => {
+  res.json({ connected: !!client });
+});
+
+// Função que inicia a lógica de atendimento
 function startBot(client) {
   console.log('Bot de WhatsApp iniciado com sucesso!');
 
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-  // Função para atendimento padrão
   async function atendimentoPadrao(client, msg, nome) {
     await delay(3000);
     client.sendText(
@@ -85,7 +123,6 @@ function startBot(client) {
       const contact = await client.getContact(msg.from);
       const nome = contact.pushname?.split(" ")[0] || "Cliente";
 
-      // Verifica se a mensagem corresponde a uma das opções pré-definidas
       if (/^(menu|Menu|dia|tarde|noite|oi|Oi|Olá|olá|ola|Ola)$/i.test(msg.body)) {
         await atendimentoPadrao(client, msg, nome);
       } else if (msg.body === '1') {
@@ -93,70 +130,40 @@ function startBot(client) {
         client.sendText(
           msg.from,
           `*Açaiteria Zaponi Intense - Cardápio*\n\n` +
-          `*Açaí*\n Tamanhos:\n` +
-          ` - 300ml: R$ 10,00\n` +
-          ` - 500ml: R$ 15,00\n` +
-          ` - 700ml: R$ 20,00\n` +
-          ` - 1L: R$ 25,00\n\n` +
-          `*Combos de Açaí:*\n` +
-          ` - Açaí Fit: Banana, granola, mel - R$ 18,00\n` +
-          ` - Açaí Tropical: Morango, kiwi, leite condensado - R$ 22,00\n` +
-          ` - Açaí Especial: Leite em pó, paçoca, chocolate branco - R$ 25,00\n\n` +
-          `*Complementos (cada):*\n` +
-          ` - Frutas: Morango, banana, manga - R$ 3,00\n` +
-          ` - Caldas: Leite condensado, chocolate, doce de leite - R$ 2,00\n` +
-          ` - Grãos e Nuts: Granola, amendoim, castanha de caju - R$ 2,50\n\n` +
-          `*Sorvetes*\n Bolas de Sorvete (cada):\n` +
-          ` - Sabores Clássicos: Chocolate, Morango, Baunilha, Limão, Flocos - R$ 6,00\n` +
-          ` - Sabores Especiais: Cookies & Cream, Menta com Chocolate, Doce de Leite - R$ 7,50\n\n` +
-          `Sorvete no Pote:\n` +
-          ` - 300ml: R$ 12,00\n` +
-          ` - 500ml: R$ 18,00\n\n` +
-          `*Milkshakes*\n Sabores: Chocolate, Morango, Ovomaltine, Baunilha, Nutella\n` +
-          ` - Tamanho P (300ml): R$ 12,00\n` +
-          ` - Tamanho M (500ml): R$ 15,00\n` +
-          ` - Tamanho G (700ml): R$ 18,00\n\n` +
-          `*Bebidas*\n` +
-          ` - Sucos Naturais: R$ 8,00\n` +
-          ` - Água de Coco: R$ 6,00\n` +
-          ` - Refrigerantes: R$ 5,00\n` +
-          ` - Chás Gelados: R$ 7,00`
+          `*Açaí*\n - 300ml: R$ 10,00\n - 500ml: R$ 15,00\n - 700ml: R$ 20,00\n - 1L: R$ 25,00\n\n` +
+          `*Combos de Açaí:*\n - Fit: R$ 18,00\n - Tropical: R$ 22,00\n - Especial: R$ 25,00\n\n` +
+          `*Complementos:* R$ 2,00 a R$ 3,00\n\n` +
+          `*Sorvetes:* R$ 6,00 a R$ 7,50\n\n` +
+          `*Milkshakes:* R$ 12,00 a R$ 18,00\n\n` +
+          `*Bebidas:* R$ 5,00 a R$ 8,00`
         );
       } else if (msg.body === '2') {
         await delay(3000);
         client.sendText(
           msg.from,
           `🌟 *Promoções do Dia* 🌟\n\n` +
-          `🍧 *Açaí em dobro* - Na compra de um açaí, o segundo sai pela metade do preço!\n` +
-          `🍦 *Sorvete de 2 Litros* - De R$30,00 por R$25,00 (sabores limitados)\n\n` +
-          `Essas ofertas são válidas apenas hoje! Aproveite!`
+          `🍧 Açaí em dobro\n🍦 Sorvete 2L de R$30 por R$25\n\nSó hoje!`
         );
       } else if (msg.body === '3') {
         await delay(3000);
         client.sendText(
           msg.from,
-          `Nosso horário de funcionamento é:\n\n` +
-          `🕒 Segunda a Sexta: 10:00 - 22:00\n` +
-          `🕒 Sábado e Domingo: 12:00 - 23:00\n\n` +
-          `Estamos ansiosos para atendê-lo!`
+          `🕒 Funcionamento:\nSeg-Sex: 10h-22h\nSáb-Dom: 12h-23h`
         );
       } else if (msg.body === '4') {
         await delay(3000);
         client.sendText(
           msg.from,
-          `Você pode nos encontrar na seguinte localização:\n\n` +
-          `📍 *Endereço:* R. Sandro Antônio Mendes, 175, Parque Vitoria Regia\n` +
-          `📞 *Telefone:* (11) 1234-5678\n\n` +
-          `Estamos sempre prontos para atendê-lo!`
+          `📍 R. Sandro Antônio Mendes, 175, Parque Vitoria Regia\n📞 (11) 1234-5678`
         );
       } else if (msg.body === '5') {
         await delay(3000);
         client.sendText(
           msg.from,
-          `Se você tiver outras dúvidas ou precisar de mais informações, fique à vontade para perguntar aqui ou ligar para nosso atendimento pelo número (11) 1234-5678.`
+          `Fale conosco aqui ou pelo telefone: (11) 1234-5678`
         );
       } else {
-        // Caso a mensagem não corresponda a nenhuma opção, enviar para a API de IA
+        // IA via Easy-Peasy
         try {
           const response = await fetch('https://bots.easy-peasy.ai/bot/d68ba378-65f0-48ef-8d7b-e80563b35345/api', {
             method: 'POST',
@@ -173,26 +180,15 @@ function startBot(client) {
 
           const data = await response.json();
           const replyText = data.bot?.text || 'Desculpe, não consegui processar a resposta.';
-
           await client.sendText(msg.from, replyText);
         } catch (error) {
-          console.error('Erro ao obter resposta do bot:', error);
-          await client.sendText(msg.from, 'Desculpe, houve um erro ao processar sua mensagem.');
+          console.error('Erro com Easy-Peasy:', error);
+          await client.sendText(msg.from, 'Erro ao processar sua mensagem.');
         }
       }
     }
   });
 }
-
-// Rota para enviar o QR code para o frontend
-app.get('/qr-code', (req, res) => {
-  if (qrCodeImage) {
-    res.json({ qrCode: qrCodeImage });
-  } else {
-    console.error('QR code não disponível no servidor.');
-    res.status(500).json({ message: 'QR code não disponível no servidor.' });
-  }
-});
 
 // Configuração do transportador do Nodemailer
 const transporter = nodemailer.createTransport({
@@ -386,14 +382,17 @@ app.get('/vendas-diarias', (req, res) => {
 
 // Rota para buscar o valor total de vendas diárias separadas por tipo de venda
 app.get('/vendas-diarias-separadas', (req, res) => {
+  const mes = req.query.mes || new Date().getMonth() + 1;
+  const ano = req.query.ano || new Date().getFullYear();
+
   const query = `
     SELECT tipo_venda, IFNULL(SUM(total), 0) AS total_vendas
     FROM pedidos
-    WHERE DATE(data_pedido) = CURDATE()
+    WHERE MONTH(data_pedido) = ? AND YEAR(data_pedido) = ?
     GROUP BY tipo_venda
   `;
 
-  connection.query(query, (err, results) => {
+  connection.query(query, [mes, ano], (err, results) => {
     if (err) {
       console.error('Erro ao buscar vendas diárias separadas:', err);
       return res.status(500).json({ error: 'Erro ao buscar vendas diárias separadas.' });
@@ -454,14 +453,17 @@ app.post('/alterar-senha', authenticateToken, async (req, res) => {
 
 // Rota para buscar o valor total de vendas diárias para o mês atual
 app.get('/vendas-mensais', (req, res) => {
+  const mes = req.query.mes || new Date().getMonth() + 1; // Mês atual se não for passado
+  const ano = req.query.ano || new Date().getFullYear(); // Ano atual se não for passado
+
   const query = `
       SELECT DAY(data_pedido) AS dia, IFNULL(SUM(total), 0) AS total_vendas
       FROM pedidos
-      WHERE MONTH(data_pedido) = MONTH(CURDATE()) AND YEAR(data_pedido) = YEAR(CURDATE())
+      WHERE MONTH(data_pedido) = ? AND YEAR(data_pedido) = ?
       GROUP BY dia
       ORDER BY dia
   `;
-  connection.query(query, (err, results) => {
+  connection.query(query, [mes, ano], (err, results) => {
       if (err) {
           console.error('Erro ao buscar vendas mensais:', err);
           return res.status(500).json({ error: 'Erro ao buscar vendas mensais.' });
