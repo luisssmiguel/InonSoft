@@ -19,24 +19,24 @@ body {
 /* Barra lateral (sidebar) */
 .sidebar {
     width: 250px;
-    background-color: #000; /* Fundo preto */
+    background-color: #000;
     color: #fff;
     height: 100vh;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Mantém o conteúdo no topo */
+    justify-content: flex-start;
     align-items: center;
-    position: fixed; /* Mantém a sidebar fixa na tela */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra leve */
+    position: fixed;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.sidebar .logo {
+.logo {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.sidebar .logo img {
+.logo img {
     width: 150px;
     height: auto;
     margin-bottom: 20px;
@@ -67,8 +67,10 @@ body {
     margin-right: 10px;
 }
 
-.menu-item:hover {
-    background-color: #007BFF; /* Cor de fundo ao passar o mouse */
+.menu-item:hover,
+.menu-item.active {
+    background-color: #1a1a1a;
+    border-radius: 8px;
 }
 
 /* Opções de conta na parte inferior da sidebar */
@@ -96,7 +98,7 @@ body {
     flex-grow: 1;
     padding: 40px;
     background-color: #f9f9f9;
-    margin-left: 250px; /* Para compensar a largura da sidebar fixa */
+    margin-left: 250px;
 }
 
 /* Header do Usuário */
