@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Relatórios</title>
+    <title>InonSoft - Relatórios</title>
     <link rel="stylesheet" href="relatorios.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -15,7 +15,7 @@
             </div>
             <nav class="menu">
                 <a href="tela_inicial.html" class="menu-item"><i class="fas fa-home"></i> Tela Inicial</a>
-                <a href="#" class="menu-item"><i class="fas fa-chart-line"></i> Relatórios</a>
+                <a href="#" class="menu-item active"><i class="fas fa-chart-line"></i> Relatórios</a>
                 <a href="tela_gestao_estoque.html" class="menu-item"><i class="fas fa-box"></i> Gestão de Estoque</a>
                 <a href="tela_compras.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Vendas</a>
                 <a href="#" class="menu-item"><i class="fab fa-whatsapp"></i> Whatsapp</a>
@@ -31,117 +31,85 @@
         <main class="main-content">
             <header class="header">
                 <div class="user-info">
-                    <img src="img/user.jpg" alt="Admin" class="user-photo">
+                    <div class="avatar">EZ</div>
                     <div class="user-details">
-                        <h4 id="user-name">Emily Zaponi</h4> <!-- Adicionando ID para nome do usuário -->
-                        <p id="user-role">Administrador</p> <!-- Adicionando ID para papel do usuário -->
+                        <h4 id="user-name">Emily Zaponi</h4>
+                        <p id="user-role">Administrador</p>
                     </div>
                 </div>
             </header>
 
-            <section class="report-section">
-                <h2>Tendência de Vendas ao Longo do Mês</h2>
-                <div class="filter-container">
-                    <label for="monthSelect">Mês:</label>
-                    <select id="monthSelect">
-                        <option value="1">Janeiro</option>
-                        <option value="2">Fevereiro</option>
-                        <option value="3">Março</option>
-                        <option value="4">Abril</option>
-                        <option value="5">Maio</option>
-                        <option value="6">Junho</option>
-                        <option value="7">Julho</option>
-                        <option value="8">Agosto</option>
-                        <option value="9">Setembro</option>
-                        <option value="10">Outubro</option>
-                        <option value="11">Novembro</option>
-                        <option value="12">Dezembro</option>
-                    </select>
-            
-                    <label for="yearSelect">Ano:</label>
-                    <select id="yearSelect"></select>
-            
-                    <button id="filterButton">Filtrar</button>
+            <div class="content">
+                <div class="chart-container">
+                    <h2>Tendência de Vendas ao Longo do Mês</h2>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>Mês:</label>
+                            <select id="monthSelect">
+                                <option value="1">Janeiro</option>
+                                <option value="2">Fevereiro</option>
+                                <option value="3">Março</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Maio</option>
+                                <option value="6">Junho</option>
+                                <option value="7">Julho</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Ano:</label>
+                            <select id="yearSelect"></select>
+                        </div>
+                        <button id="filterButton">Filtrar</button>
+                    </div>
+                    <div class="chart">
+                        <canvas id="salesChart"></canvas>
+                    </div>
                 </div>
-                <canvas id="salesChart"></canvas>
-            </section>
 
-            <div class="cards">
-                <div class="card">
-                    <h3>Estoque</h3>
-                    <p>Quantidade baixa</p>
-                    <ul id="lowStockList"></ul> <!-- Lista será preenchida dinamicamente -->
-                </div>
-                <div class="card">
-                    <h3>Vendas Delivery</h3>
-                    <p>Diário: <span id="dailySales">R$ 0,00</span></p>
-                </div>
-                <div class="card">
-                    <h3>Vendas Loja Física</h3>
-                    <p>Diário: <span id="storeSales">R$ 0,00</span></p>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Estoque</h3>
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-sm text-muted">Quantidade baixa</p>
+                            <ul id="lowStockList" class="stock-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Vendas Delivery</h3>
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="sales-amount" id="deliverySales">R$ 0,00</div>
+                            <p class="text-sm text-muted">Diário</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Vendas Loja Física</h3>
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="card-content">
+                            <div class="sales-amount" id="storeSales">R$ 0,00</div>
+                            <p class="text-sm text-muted">Diário</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="relatorio.js"></script>
-    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        async function loadMonthlySalesTrend() {
-            try {
-                const response = await fetch('http://localhost:3000/vendas-mensais');
-                const data = await response.json();
-
-                const days = data.map(item => item.dia); // Dias do mês
-                const totalSales = data.map(item => item.total_vendas); // Totais de vendas
-
-                const ctx = document.getElementById('salesChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: days,
-                        datasets: [{
-                            label: 'Vendas Diárias',
-                            data: totalSales,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Dias do Mês'
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Total de Vendas (R$)'
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true
-                            },
-                            title: {
-                                display: true,
-                                text: 'Tendência de Vendas ao Longo do Mês'
-                            }
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Erro ao carregar dados do gráfico:', error);
-            }
-        }
-
-    </script>
+    <script src="relatorio.js"></script>
 </body>
 </html>
