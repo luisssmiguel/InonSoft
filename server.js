@@ -8,6 +8,8 @@ const venom = require('venom-bot');
 const fetch = require('node-fetch');
 const bodyParser = require("body-parser");
 const app = express();
+require('dotenv').config(); // Carrega as variáveis de ambiente
+
 
 let qrCodeImage; // Variável para armazenar o QR code
 let client; // Armazena o cliente do Venom-Bot para uso posterior
@@ -261,7 +263,6 @@ app.post('/register', async (req, res) => {
 // Função de login de usuário
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  console.log('Dados recebidos no login:', { username });
 
   const sql = 'SELECT * FROM users WHERE username = ?';
   connection.query(sql, [username], async (err, results) => {
@@ -275,26 +276,20 @@ app.post('/login', (req, res) => {
       return res.status(400).send('Nome de usuário ou senha incorretos.');
     }
 
-    // Verificar senha criptografada
     const user = results[0];
-    try {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (isMatch) {
-        console.log('Login bem-sucedido para o usuário:', username);
-
-        // Gera o token e inclui o userId
-        const token = jwt.sign({ userId: user.id }, 'sua_chave_secreta', { expiresIn: '1h' });
-
-        // Envia o token para o frontend como JSON
-        res.status(200).json({ token }); // Retorna o token para o frontend
-      } else {
-        console.log('Senha incorreta para o usuário:', username);
-        res.status(400).send('Nome de usuário ou senha incorretos.');
-      }
-    } catch (error) {
-      console.error('Erro ao comparar senha:', error);
-      res.status(500).send('Erro no servidor.');
+    if (!user.password) {
+      console.error('Hash da senha não encontrado para o usuário:', username);
+      return res.status(500).send('Erro no servidor.');
     }
+
+    console.log('Senha fornecida:', password);
+    console.log('Hash da senha no banco de dados:', user.password);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).send('Nome de usuário ou senha incorretos.');
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+    res.status(200).json({ token });
   });
 });
 
@@ -417,34 +412,49 @@ app.get('/vendas-diarias-separadas', (req, res) => {
 
 // Rota para obter informações do usuário logado
 app.get('/usuario-info', authenticateToken, (req, res) => {
-  const query = 'SELECT nomeCompleto, papel FROM users WHERE id = ?';
+  const query = 'SELECT username, email FROM users WHERE id = ?';
   connection.query(query, [req.userId], (err, results) => {
-      if (err) {
-          console.error('Erro ao buscar informações do usuário:', err);
-          return res.status(500).send('Erro no servidor.');
-      }
-      if (results.length === 0) {
-          return res.status(404).send('Usuário não encontrado.');
-      }
-      res.json(results[0]);
+    if (err) {
+      console.error('Erro ao buscar informações do usuário:', err);
+      return res.status(500).send('Erro no servidor.');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('Usuário não encontrado.');
+    }
+    res.json(results[0]); // Retorna os dados do usuário
   });
 });
 
 // Rota para alterar a senha do usuário logado
 app.post('/alterar-senha', authenticateToken, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
+
+  // Verifica se os campos estão presentes
+  if (!currentPassword || !newPassword) {
+    return res.status(400).send('Os campos "currentPassword" e "newPassword" são obrigatórios.');
+  }
+
   const getPasswordQuery = 'SELECT password FROM users WHERE id = ?';
-  
+
   connection.query(getPasswordQuery, [req.userId], async (err, results) => {
     if (err) return res.status(500).send('Erro ao buscar senha do usuário.');
     if (results.length === 0) return res.status(404).send('Usuário não encontrado.');
 
-    const isMatch = await bcrypt.compare(currentPassword, results[0].password);
+    const hashedPassword = results[0].password;
+    if (!hashedPassword) {
+      console.error('Hash da senha não encontrado no banco de dados.');
+      return res.status(500).send('Erro no servidor.');
+    }
+
+    console.log('Senha atual fornecida:', currentPassword);
+    console.log('Hash da senha no banco de dados:', hashedPassword);
+
+    const isMatch = await bcrypt.compare(currentPassword, hashedPassword);
     if (!isMatch) return res.status(400).send('Senha atual incorreta.');
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
     const updatePasswordQuery = 'UPDATE users SET password = ? WHERE id = ?';
-    connection.query(updatePasswordQuery, [hashedPassword, req.userId], (err) => {
+    connection.query(updatePasswordQuery, [newHashedPassword, req.userId], (err) => {
       if (err) return res.status(500).send('Erro ao atualizar senha.');
       res.status(200).send('Senha alterada com sucesso!');
     });

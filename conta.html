@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuração de Conta</title>
-    <link rel="stylesheet" href="styles_conta.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha Conta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles_conta.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Configurações da Conta</h1>
-        
-        <div class="user-info">
-            <h3>Informações do Usuário</h3>
-            <p><strong>Nome Completo:</strong> <span id="full-name">Carregando...</span></p>
-            <p><strong>Email:</strong> <span id="email">Carregando...</span></p>
+  <div class="container">
+    <div class="card">
+      <div class="profile-icon">
+        <svg width="29" height="29" fill="none" viewBox="0 0 24 24"><g><circle cx="12" cy="8.5" r="4" stroke="white" stroke-width="2"></circle><path stroke="white" stroke-width="2" stroke-linecap="round" d="M4 20c0-2.7614 3.134-5 7-5s7 2.2386 7 5"></path></g></svg>
+      </div>
+      <div class="user-info">
+        <h2 id="user-name">—</h2>
+        <p id="user-email">—</p>
+      </div>
+
+      <form id="password-form" autocomplete="off">
+        <div class="form-title">Alterar Senha</div>
+
+        <!-- Campo para a senha atual -->
+        <div class="input-group">
+          <div class="input-wrapper">
+            <svg fill="none" viewBox="0 0 24 24" width="18" height="18">
+              <rect x="5" y="11" width="14" height="8" rx="2" stroke="#717171" stroke-width="1.5"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#717171" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="password" id="current-password" placeholder="Senha atual" minlength="3" maxlength="32" required />
+          </div>
         </div>
 
-        <div class="password-change">
-            <h3>Alterar Senha</h3>
-            <label for="current-password">Senha Atual:</label>
-            <input type="password" id="current-password" placeholder="Digite sua senha atual">
-            
-            <label for="new-password">Nova Senha:</label>
-            <input type="password" id="new-password" placeholder="Digite a nova senha">
-            
-            <label for="confirm-password">Confirmar Nova Senha:</label>
-            <input type="password" id="confirm-password" placeholder="Confirme a nova senha">
-            
-            <button onclick="alterarSenha()">Alterar Senha</button>
+        <!-- Campo para a nova senha -->
+        <div class="input-group">
+          <div class="input-wrapper">
+            <svg fill="none" viewBox="0 0 24 24" width="18" height="18">
+              <rect x="5" y="11" width="14" height="8" rx="2" stroke="#717171" stroke-width="1.5"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#717171" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input type="password" id="new-password" placeholder="Nova senha" minlength="3" maxlength="32" required />
+          </div>
         </div>
 
-        <div class="actions">
-            <button onclick="voltarParaTelaInicial()">Voltar para a Tela Inicial</button>
-        </div>
+        <button class="btn-primary" type="submit">Atualizar Senha</button>
+      </form>
+      <div class="success-alert" id="alert-success">Senha alterada com sucesso!</div>
+      <button class="btn-secondary" id="btn-voltar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"><path d="M15.5 4.5l-7 7 7 7" stroke="#0A2A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Voltar para Tela Inicial
+      </button>
     </div>
-
-    <script src="conta.js"></script>
+  </div>
+  <script src="conta.js"></script>
 </body>
 </html>
