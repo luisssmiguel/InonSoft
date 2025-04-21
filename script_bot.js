@@ -2,33 +2,9 @@
 let connectionStatus = { connected: false, qrCode: null };
 let selectedContactId = null;
 let contacts = [
-    { 
-        id: '1', 
-        name: 'João Silva', 
-        phone: '+5511999999999',
-        lastMessage: 'Olá, preciso de ajuda',
-        timestamp: new Date(Date.now() - 1000 * 60 * 5),
-        unreadCount: 2,
-        avatar: '👤'
-    },
-    { 
-        id: '2', 
-        name: 'Maria Souza', 
-        phone: '+5511988888888',
-        lastMessage: 'Quando vocês abrem?',
-        timestamp: new Date(Date.now() - 1000 * 60 * 30),
-        unreadCount: 0,
-        avatar: '👩'
-    },
-    { 
-        id: '3', 
-        name: 'Carlos Pereira', 
-        phone: '+5511977777777',
-        lastMessage: 'Obrigado pelo atendimento',
-        timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-        unreadCount: 0,
-        avatar: '👨'
-    }
+    { id: '1', name: 'João Silva', phone: '+5511999999999', lastMessage: 'Olá, preciso de ajuda', timestamp: new Date(Date.now() - 1000 * 60 * 5), unreadCount: 2, avatar: '👤' },
+    { id: '2', name: 'Maria Souza', phone: '+5511988888888', lastMessage: 'Quando vocês abrem?', timestamp: new Date(Date.now() - 1000 * 60 * 30), unreadCount: 0, avatar: '👩' },
+    { id: '3', name: 'Carlos Pereira', phone: '+5511977777777', lastMessage: 'Obrigado pelo atendimento', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), unreadCount: 0, avatar: '👨' }
 ];
 let conversations = new Map();
 
@@ -47,10 +23,7 @@ const statusText = document.querySelector('.status-text');
 
 // Funções auxiliares
 function formatTime(date) {
-    return new Intl.DateTimeFormat('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    }).format(date);
+    return new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(date);
 }
 
 function updateConnectionStatus(status) {
@@ -82,18 +55,12 @@ function selectContact(contactId) {
     selectedContactId = contactId;
     const contact = contacts.find(c => c.id === contactId);
     
-    // Atualiza o header do chat
     document.querySelector('.chat-contact-info .contact-name').textContent = contact.name;
-    
-    // Carrega as mensagens
     renderMessages(contactId);
-    
-    // Atualiza UI
     renderContacts();
     messageInput.disabled = !connectionStatus.connected;
     sendButton.disabled = !connectionStatus.connected;
     
-    // Em mobile, mostra a seção do chat
     if (window.innerWidth <= 768) {
         chatSection.classList.add('active');
     }
@@ -125,7 +92,6 @@ function renderMessages(contactId) {
 async function sendMessage(content) {
     if (!selectedContactId || !content.trim()) return;
     
-    // Cria mensagem do usuário
     const userMessage = {
         id: Date.now().toString(),
         content: content.trim(),
@@ -133,17 +99,14 @@ async function sendMessage(content) {
         sender: 'user'
     };
     
-    // Adiciona à conversa
     if (!conversations.has(selectedContactId)) {
         conversations.set(selectedContactId, []);
     }
     conversations.get(selectedContactId).push(userMessage);
     
-    // Atualiza UI
     renderMessages(selectedContactId);
     messageInput.value = '';
     
-    // Atualiza o último contato
     const contactIndex = contacts.findIndex(c => c.id === selectedContactId);
     if (contactIndex >= 0) {
         contacts[contactIndex] = {
@@ -154,23 +117,16 @@ async function sendMessage(content) {
         renderContacts();
     }
     
-    // Simula resposta do bot
     try {
         const response = await fetch('https://webhook.botpress.cloud/eea12d7d-fbe7-4faa-9745-4c19e0ed86fa', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: content,
-                userId: selectedContactId
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: content, userId: selectedContactId })
         });
         
         const data = await response.json();
         const botResponse = data.response || 'Desculpe, não consegui processar sua solicitação.';
         
-        // Adiciona resposta do bot
         const botMessage = {
             id: Date.now().toString(),
             content: botResponse,
@@ -181,7 +137,6 @@ async function sendMessage(content) {
         conversations.get(selectedContactId).push(botMessage);
         renderMessages(selectedContactId);
         
-        // Atualiza o último contato
         contacts[contactIndex] = {
             ...contacts[contactIndex],
             lastMessage: botResponse,
@@ -193,46 +148,40 @@ async function sendMessage(content) {
     }
 }
 
-// Função para iniciar o bot e buscar o QR Code
+// Função para iniciar o bot e buscar o QR Code REAL
 async function startBot() {
-  try {
-    // Inicia o bot no backend
-    const startResponse = await fetch('http://localhost:3000/start-bot');
-    const startData = await startResponse.json();
-    console.log(startData.message);
+    try {
+        const startResponse = await fetch('http://localhost:3000/start-bot');
+        const startData = await startResponse.json();
+        console.log(startData.message);
 
-    // Aguarda o QR Code ser gerado
-    const qrResponse = await fetch('http://localhost:3000/qr-code');
-    if (!qrResponse.ok) throw new Error('QR Code ainda não gerado.');
+        const qrResponse = await fetch('http://localhost:3000/qr-code');
+        if (!qrResponse.ok) throw new Error('QR Code ainda não gerado.');
 
-    const qrData = await qrResponse.json();
-    const qrCodeBase64 = qrData.qrCode;
+        const qrData = await qrResponse.json();
+        const qrCodeBase64 = qrData.qrCode;
 
-    // Exibe o QR Code na tela
-    const qrContainer = document.getElementById('qrContainer');
-    qrContainer.innerHTML = ''; // Limpa o conteúdo anterior
-    const img = document.createElement('img');
-    img.src = `data:image/png;base64,${qrCodeBase64}`;
-    img.alt = 'QR Code para conectar ao WhatsApp';
-    qrContainer.appendChild(img);
+        const qrContainer = document.getElementById('qrContainer');
+        qrContainer.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = `data:image/png;base64,${qrCodeBase64}`;
+        img.alt = 'QR Code para conectar ao WhatsApp';
+        qrContainer.appendChild(img);
 
-    // Exibe o modal
-    document.getElementById('qrModal').style.display = 'block';
-  } catch (error) {
-    console.error('Erro ao iniciar o bot ou buscar o QR Code:', error);
-    alert('Erro ao conectar ao WhatsApp. Tente novamente.');
-  }
+        document.getElementById('qrModal').style.display = 'block';
+    } catch (error) {
+        console.error('Erro ao iniciar o bot ou buscar o QR Code:', error);
+        alert('Erro ao conectar ao WhatsApp. Verifique se o servidor está online.');
+    }
 }
 
-// Fecha o modal
-document.getElementById('closeModal').addEventListener('click', () => {
-  document.getElementById('qrModal').style.display = 'none';
+// Eventos de botões
+connectButton.addEventListener('click', startBot);
+
+closeModal.addEventListener('click', () => {
+    document.getElementById('qrModal').style.display = 'none';
 });
 
-// Evento para iniciar o bot ao clicar no botão
-document.getElementById('connectWhatsApp').addEventListener('click', startBot);
-
-// Event Listeners
 messageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -242,32 +191,6 @@ messageInput.addEventListener('keypress', (e) => {
 
 sendButton.addEventListener('click', () => {
     sendMessage(messageInput.value);
-});
-
-connectButton.addEventListener('click', () => {
-    qrModal.classList.add('active');
-    // Simula geração de QR Code
-    setTimeout(() => {
-        const qrContainer = document.getElementById('qrContainer');
-        QRCode.toCanvas(qrContainer, 'https://exemplo-qr-code.com', {
-            width: 256,
-            margin: 1,
-            color: {
-                dark: '#075E54',
-                light: '#ffffff'
-            }
-        });
-        
-        // Simula conexão após 5 segundos
-        setTimeout(() => {
-            updateConnectionStatus({ connected: true });
-            qrModal.classList.remove('active');
-        }, 5000);
-    }, 1000);
-});
-
-closeModal.addEventListener('click', () => {
-    qrModal.classList.remove('active');
 });
 
 backButton.addEventListener('click', () => {
