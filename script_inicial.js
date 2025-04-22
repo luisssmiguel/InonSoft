@@ -1,35 +1,30 @@
-// Função para carregar informações do usuário logado
-async function carregarInformacoesUsuario() {
-    try {
-        const token = localStorage.getItem('token'); // Obter o token armazenado no login
-        console.log("Token encontrado:", token); // Depuração: Verifique se o token foi encontrado
-
-        if (!token) throw new Error('Usuário não autenticado');
-
-        const response = await fetch('http://localhost:3000/usuario-info', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) throw new Error('Erro ao carregar informações do usuário');
-
-        const data = await response.json();
-
-        // Atualizar o HTML com o nome e o papel do usuário
-        document.getElementById('user-name').textContent = data.nomeCompleto;
-        document.getElementById('user-role').textContent = data.papel;
-    } catch (error) {
-        console.error('Erro ao carregar informações do usuário:', error);
-
-        // Fallback: usa o nome do usuário do localStorage se a chamada ao servidor falhar
-        const username = localStorage.getItem("username");
-        if (username) {
-            document.getElementById("user-name").innerText = username;
-            document.getElementById("user-role").innerText = "Usuário"; // papel padrão ou genérico
-        }
+// Função para carregar dados do usuário logado
+async function carregarDadosUsuario() {
+  try {
+    const token = localStorage.getItem('token'); // Obtém o token do usuário logado
+    if (!token) {
+      alert('Você não está autenticado. Faça login novamente.');
+      window.location.href = 'tela_login.html'; // Redireciona para a tela de login
+      return;
     }
+
+    const response = await fetch('http://localhost:3000/usuario-info', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error('Erro ao carregar dados do usuário.');
+
+    const data = await response.json();
+    document.getElementById('user-name').textContent = data.username || 'Usuário';
+    document.getElementById('user-role').textContent = data.email || 'Sem e-mail';
+  } catch (error) {
+    console.error('Erro ao carregar dados do usuário:', error);
+    alert('Erro ao carregar informações do usuário. Tente novamente.');
+  }
 }
-// Executa ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarInformacoesUsuario);
+
+// Carrega os dados do usuário ao carregar a página
+document.addEventListener('DOMContentLoaded', carregarDadosUsuario);

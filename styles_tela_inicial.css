@@ -27,6 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     position: fixed;
+    top:0;
     height: 100vh;
 }
 
@@ -79,17 +80,24 @@ nav, .account-options {
 }
 
 .main-content {
-    flex: 1;
-    margin-left: 260px;
-    padding: 0; /* Remove padding extra se necessário */
-  background-color: #f9f9f9;
+    margin-left: 260px; /* Adiciona espaço para a sidebar */
+    margin-top: 80px; /* Ajusta o espaço para o cabeçalho fixo */
+    padding: 20px; /* Espaçamento interno */
+    background-color: #f9f9f9;
 }
+
 .header {
     background-color: white;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid #e9ecef;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    top: 0px; /* Adiciona um espaçamento de 20px do topo */
+    left: 260px; /* Largura da sidebar */
+    width: calc(100% - 260px); /* Faz o cabeçalho ocupar o restante da largura */
+    z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
 }
 
 .user-info {
@@ -101,23 +109,29 @@ nav, .account-options {
 .avatar {
     width: 40px;
     height: 40px;
-    background-color: var(--primary);
-    border-radius: 50%;
+    border-radius: 50%; /* Mantém a imagem em formato circular */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: 500;
+    overflow: hidden; /* Garante que a imagem não ultrapasse os limites do círculo */
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem para preencher o círculo */
 }
 
 .user-details h4 {
     font-weight: 500;
-    color: var(--dark);
+    color: #1A1F2C; /* Cor escura */
+    margin: 0;
 }
 
 .user-details p {
     font-size: 0.875rem;
-    color: var(--neutral);
+    color: #8E9196; /* Cor neutra */
+    margin: 0;
 }
 
 .content {
@@ -126,36 +140,12 @@ nav, .account-options {
 
 /* Conteúdo principal */
 .main-content {
-    flex-grow: 1;
-    padding: 40px;
+    margin-left: 260px; /* Adiciona espaço para a sidebar */
+    margin-top: 100px; /* Ajusta o espaço para o cabeçalho fixo */
+    padding: 20px; /* Espaçamento interno */
     background-color: #f9f9f9;
-    margin-left: 250px;
 }
 
-/* Header do Usuário */
-.header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.header img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-
-.header h2 {
-    font-size: 24px;
-    color: #333;
-}
-
-.header span {
-    font-size: 14px;
-    color: #777;
-    margin-left: 10px;
-}
 
 /* Barra de Ações */
 .actions {
