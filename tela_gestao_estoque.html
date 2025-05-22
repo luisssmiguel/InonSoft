@@ -16,7 +16,7 @@
             <nav class="menu">
                 <a href="tela_inicial.html" class="menu-item"><i class="fas fa-home"></i> Tela Inicial</a>
                 <a href="tela_relatorios.html" class="menu-item"><i class="fas fa-chart-line"></i> Relatórios</a>
-                <a href="" class="menu-item"><i class="fas fa-box"></i> Gestão de Estoque</a>
+                <a href="" class="menu-item active"><i class="fas fa-box"></i> Gestão de Estoque</a>
                 <a href="tela_compras.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Vendas</a>
                 <a href="#" class="menu-item"><i class="fab fa-whatsapp"></i> Whatsapp</a>
                 <a href="#" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
@@ -30,13 +30,16 @@
 
         <div class="main-content">
             <div class="header">
-                <img src="img/user.jpg" alt="Foto de perfil" class="user-img">
                 <div class="user-info">
-                    <h4 id="user-name">Nome do Usuário</h4>
-                    <p id="user-role">E-mail</p>
+                    <div class="avatar">
+                        <img src="img/user.jpg" alt="Foto de perfil">
+                    </div>
+                    <div class="user-details">
+                        <h4 id="user-name">Luis</h4>
+                        <p id="user-role">luis.teste10@gmail.com</p>
+                    </div>
                 </div>
             </div>
-
             <div class="actions">
                 <button class="add-button" onclick="addEstoque()"><i class="fas fa-plus"></i> Adicionar</button>
                 <input type="search" placeholder="Pesquisar Produto" oninput="searchEstoque(this.value)">
@@ -84,6 +87,10 @@
                 </div>
             </div>
         </div>
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     </div>
     <script src="auth.js"></script>
     <script src="estoque.js"></script>

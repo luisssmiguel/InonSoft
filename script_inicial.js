@@ -28,3 +28,8 @@ async function carregarDadosUsuario() {
 
 // Carrega os dados do usuário ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.body.classList.toggle('sidebar-open');
+}

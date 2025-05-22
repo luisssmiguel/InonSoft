@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Financeiro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="style_financeiro.css">
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <div class="flex">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <img src="img/InonSoft-Logo.png" alt="InonSoft Logo">
+      </div>
+
+      <nav class="menu">
+        <a href="tela_inicial.html" class="menu-item">
+          <i class="fas fa-home"></i><span>Tela Inicial</span>
+        </a>
+        <a href="tela_relatorios.html" class="menu-item">
+          <i class="fas fa-chart-line"></i><span>Relatórios</span>
+        </a>
+        <a href="tela_gestao_estoque.html" class="menu-item">
+          <i class="fas fa-box"></i><span>Gestão de Estoque</span>
+        </a>
+        <a href="tela_compras.html" class="menu-item">
+          <i class="fas fa-shopping-cart"></i><span>Vendas</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fab fa-whatsapp"></i><span>Whatsapp</span>
+        </a>
+        <a href="#" class="menu-item active">
+          <i class="fas fa-dollar-sign"></i><span>Financeiro</span>
+        </a>
+      </nav>
+
+      <div class="account-options">
+        <a href="conta.html" class="menu-item">
+          <i class="fas fa-user"></i><span>Conta</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-question-circle"></i><span>Suporte</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-sign-out-alt"></i><span>Voltar</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content flex-1 p-6 ml-64">
+      <div class="max-w-7xl mx-auto space-y-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 class="text-3xl font-bold">Dashboard Financeiro</h1>
+            <p class="text-gray-500">Gerencie suas finanças e acompanhe seus resultados</p>
+          </div>
+          <button onclick="openTransactionModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+            Nova Transação
+          </button>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid gap-4 md:grid-cols-3">
+          <div class="rounded-lg border bg-white p-6 shadow-sm">
+            <h3 class="text-sm font-medium">Total de Entradas</h3>
+            <div class="text-2xl font-bold text-green-600" id="totalEntradas">R$ 0,00</div>
+          </div>
+          <div class="rounded-lg border bg-white p-6 shadow-sm">
+            <h3 class="text-sm font-medium">Total de Saídas</h3>
+            <div class="text-2xl font-bold text-red-600" id="totalSaidas">R$ 0,00</div>
+          </div>
+          <div class="rounded-lg border bg-white p-6 shadow-sm">
+            <h3 class="text-sm font-medium">Saldo Atual</h3>
+            <div class="text-2xl font-bold text-blue-600" id="saldoAtual">R$ 0,00</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="bg-white rounded-lg border p-6 shadow-sm">
+            <h3 class="text-lg font-semibold mb-2">Receitas vs Despesas</h3>
+            <canvas id="barChart" class="h-80"></canvas>
+          </div>
+          <div class="bg-white rounded-lg border p-6 shadow-sm">
+            <h3 class="text-lg font-semibold mb-2">Transações por Categoria</h3>
+            <canvas id="pieChart" class="h-80"></canvas>
+          </div>
+        </div>
+
+        <!-- Transaction Table -->
+        <div class="bg-white rounded-lg border p-6 shadow-sm">
+          <h3 class="text-lg font-semibold mb-4">Histórico de Transações</h3>
+          <div class="overflow-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b">
+                  <th class="text-left py-2">Data</th>
+                  <th class="text-left py-2">Tipo</th>
+                  <th class="text-left py-2">Categoria</th>
+                  <th class="text-left py-2">Descrição</th>
+                  <th class="text-right py-2">Valor</th>
+                  <th class="text-right py-2">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="transactionTableBody">
+                <!-- Conteúdo inserido via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div> <!-- Fecha o flex da sidebar + main -->
+
+  <!-- Modal Nova Transação -->
+  <div id="transactionModal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+      <h2 class="text-xl font-semibold mb-4">Adicionar Transação</h2>
+      <button onclick="closeTransactionModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+      <form id="transactionForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Tipo</label>
+          <select id="tipo" class="w-full border rounded p-2">
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Valor</label>
+          <input type="number" id="valor" class="w-full border rounded p-2" value="0" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Data</label>
+          <input type="date" id="data" class="w-full border rounded p-2" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Categoria</label>
+          <select id="categoria" class="w-full border rounded p-2">
+            <option value="Venda">Venda</option>
+            <option value="Salário">Salário</option>
+            <option value="Aluguel">Aluguel</option>
+            <option value="Alimentação">Alimentação</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Descrição</label>
+          <input type="text" id="descricao" class="w-full border rounded p-2" required>
+        </div>
+        <div class="text-right">
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script_financeiro.js"></script>
+
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+</body>
+</html>

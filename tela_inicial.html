@@ -8,29 +8,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <aside class="sidebar">
-        <div class="logo">
-          <img src="img/InonSoft-Logo.png" alt="InonSoft Logo">
-        </div>
-      
-        <div class="menu"> <!-- Agrupamento para aplicar gap -->
-          <nav>
-            <a href="tela_inicial.html" class="menu-item active"><i class="fas fa-home"></i> Tela Inicial</a>
-            <a href="tela_relatorios.html" class="menu-item"><i class="fas fa-chart-line"></i> Relatórios</a>
-            <a href="tela_gestao_estoque.html" class="menu-item"><i class="fas fa-box"></i> Gestão de Estoque</a>
-            <a href="tela_compras.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Vendas</a>
-            <a href="tela_bot.html" class="menu-item" onclick="showQRCode()"><i class="fab fa-whatsapp"></i> Whatsapp</a>
-            <a href="#" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
-          </nav>
-      
-          <div class="account-options">
-            <a href="conta.html" class="menu-item"><i class="fas fa-user"></i> Conta</a>
-            <a href="#" class="menu-item"><i class="fas fa-question-circle"></i> Suporte</a>
-            <a href="#" class="menu-item" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Voltar</a>
-          </div>
-        </div>
-      </aside>
-        <main class="main-content">
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+              <img src="img/InonSoft-Logo.png" alt="InonSoft Logo">
+            </div>
+          
+            <div class="menu"> <!-- Agrupamento para aplicar gap -->
+              <nav>
+                <a href="tela_inicial.html" class="menu-item active"><i class="fas fa-home"></i> Tela Inicial</a>
+                <a href="tela_relatorios.html" class="menu-item"><i class="fas fa-chart-line"></i> Relatórios</a>
+                <a href="tela_gestao_estoque.html" class="menu-item"><i class="fas fa-box"></i> Gestão de Estoque</a>
+                <a href="tela_compras.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Vendas</a>
+                <a href="tela_bot.html" class="menu-item" onclick="showQRCode()"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                <a href="#" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
+              </nav>
+          
+              <div class="account-options">
+                <a href="conta.html" class="menu-item"><i class="fas fa-user"></i> Conta</a>
+                <a href="#" class="menu-item"><i class="fas fa-question-circle"></i> Suporte</a>
+                <a href="#" class="menu-item" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Voltar</a>
+              </div>
+            </div>
+          </aside>
+    <div class="main-content">
             <header class="header">
                 <div class="user-info">
                     <img src="img/user.jpg" alt="Avatar" class="avatar">
@@ -49,8 +54,8 @@
                 </div>
                 <script src="script_inicial.js"></script>
             </section>
-        </main>
-
+        </div>
+    </div>
         <!-- Modal para exibir o QR code -->
         <div id="qrModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;">
             <div style="background: #fff; padding: 20px; border-radius: 8px; text-align: center;">

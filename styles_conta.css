@@ -185,3 +185,83 @@
       margin-top: 1.2rem;
     }
   }
+  
+  /* Responsividade avançada para mobile */
+@media (max-width: 700px) {
+  html, body {
+    min-height: 100vh;
+    height: auto;
+    padding: 0;
+  }
+  .container {
+    min-height: 100vh;
+    padding: 0.5rem;
+    align-items: center;      /* Centraliza verticalmente */
+    justify-content: center;  /* Centraliza horizontalmente */
+    display: flex;            /* Garante o flex container */
+  }
+  .card {
+    max-width: 100vw;
+    width: 100%;
+    padding: 1.2rem 0.5rem;
+    border-radius: 1rem;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .profile-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.6rem;
+  }
+  .user-info h2 {
+    font-size: 1.1rem;
+  }
+  .user-info p {
+    font-size: 0.95rem;
+  }
+  .form-title {
+    font-size: 0.98rem;
+  }
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  .input-wrapper {
+    padding: 0 0.5rem;
+    border-radius: 0.6rem;
+  }
+  input[type="password"] {
+    font-size: 0.98rem;
+    padding: 0.7rem 0;
+  }
+  .btn-primary {
+    font-size: 1rem;
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    margin-top: 0.4rem;
+  }
+  .btn-secondary {
+    font-size: 0.98rem;
+    padding: 0.6rem 1rem;
+    margin-top: 1rem;
+    border-radius: 1.2rem;
+  }
+  .success-alert {
+    font-size: 0.98rem;
+    padding: 0.6rem 0.7rem;
+    border-radius: 0.6rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 0.2rem;
+  }
+  .card {
+    padding: 0.7rem 0.2rem;
+    border-radius: 0.7rem;
+  }
+  .btn-primary, .btn-secondary {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+}

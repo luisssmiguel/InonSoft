@@ -197,3 +197,9 @@ async function carregarInformacoesUsuario() {
 
 // Carrega as informações do usuário ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarInformacoesUsuario);
+
+// Script para o toggle da sidebar
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.body.classList.toggle('sidebar-open');
+}

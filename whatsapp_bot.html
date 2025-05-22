@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard WhatsApp Bot</title>
+  <link rel="stylesheet" href="styles_bot.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h1>ZaponiBot</h1>
+      <nav>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Contatos</a>
+        <a href="#">Mensagens</a>
+        <a href="#">Configurações</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h2>Dashboard</h2>
+
+      <div class="status-card">
+        <h3>Status do Bot:</h3>
+        <span id="status" class="status-offline">Desconectado</span>
+      </div>
+
+      <div id="qrCodeContainer" class="qr-container">
+        <p>Escaneie o QR Code para conectar:</p>
+        <div id="qrCode"></div>
+      </div>
+
+      <button onclick="refreshStatus()" class="refresh-button">Atualizar Status</button>
+      <button id="deleteSessionsBtn">Apagar Sessões Antigas</button>
+    </main>
+  </div>
+  <script>
+    document.getElementById('deleteSessionsBtn').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/delete-sessions', {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Sessões apagadas com sucesso!');
+            } else {
+                alert('Erro ao apagar sessões.');
+            }
+        } catch (error) {
+            alert('Erro na comunicação com o servidor.');
+        }
+    });
+</script>
+  <script src="script_bot.js"></script>
+</body>
+</html>

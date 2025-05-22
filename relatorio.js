@@ -245,3 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadDailySalesByType(mes, ano);
     });
 });
+
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.body.classList.toggle('sidebar-open');
+}
