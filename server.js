@@ -201,8 +201,8 @@ function startBot(client) {
 const transporter = nodemailer.createTransport({
   service: "gmail", // Substitua pelo seu provedor de e-mail, ex: "gmail"
   auth: {
-    user: "lluis.teste10@gmailcom", // Coloque seu e-mail aqui
-    pass: "louis12_%" // Coloque a senha do seu e-mail aqui
+    user: "lluis.teste10@gmail.com", // CERTO
+    pass: "jkht tbnc ueee vngu" // Coloque a senha do seu e-mail aqui
   }
 });
 
@@ -213,7 +213,7 @@ app.post('/contact', (req, res) => {
   // Configura as opções de envio do e-mail
   const mailOptions = {
     from: email,
-    to: 'lluis.teste10@gmai.com', // Endereço de e-mail que receberá as mensagens de contato
+    to: 'lluis.teste10@gmail.com', // Endereço de e-mail que receberá as mensagens de contato
     subject: `Mensagem de Contato de ${nome}`,
     text: `Nome: ${nome}\nTelefone: ${telefone}\nE-mail: ${email}\nMensagem: ${mensagem}`
   };

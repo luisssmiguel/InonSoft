@@ -290,7 +290,7 @@
     </div>
 
     <div class="form-contato">
-      <form action="http://localhost:3000/contact" method="POST">
+      <form id="form-contato" action="http://localhost:3000/contact" method="POST">
         <div class="input-group">
           <label for="nome">Nome</label>
           <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
@@ -313,6 +313,7 @@
     
         <button type="submit" class="btn-enviar">ENVIAR MENSAGEM</button>
       </form>
+      <div id="mensagem-resultado"></div>
     </div>
   </div>
 </section>
@@ -403,4 +404,20 @@ function updateCarousel() {
       }
     });
   });
+</script>
+<script>
+document.getElementById('form-contato').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const dados = new FormData(form);
+  const obj = Object.fromEntries(dados.entries());
+  const res = await fetch(form.action, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(obj)
+  });
+  const msg = await res.text();
+  document.getElementById('mensagem-resultado').innerText = msg;
+  if(res.ok) form.reset();
+});
 </script>
