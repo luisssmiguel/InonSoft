@@ -19,7 +19,7 @@
                 <a href="" class="menu-item active"><i class="fas fa-box"></i> Gestão de Estoque</a>
                 <a href="tela_compras.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Vendas</a>
                 <a href="#" class="menu-item"><i class="fab fa-whatsapp"></i> Whatsapp</a>
-                <a href="#" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
+                <a href="financeiro.html" class="menu-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
             </nav>
             <div class="account-options">
                 <a href="conta.html" class="menu-item"><i class="fas fa-user"></i> Conta</a>
@@ -61,7 +61,7 @@
                             <td>10</td>
                             <td>R$50.00</td>
                             <td>
-                                <button class="edit-button" onclick="editSelectedEstoque()"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="edit-button" onclick="editEstoque('001', 10, 50.00)"><i class="fas fa-edit"></i> Editar</button>
                                 <button class="remove-button" onclick="removeSelectedEstoque()"><i class="fas fa-trash"></i> Remover</button>
                             </td>
                         </tr>
@@ -83,6 +83,24 @@
                         <input type="number" id="productPrice" step="0.01" placeholder="Digite o valor unitário">
                 
                         <button onclick="confirmAddProduct()">Adicionar</button>
+                    </div>
+                </div>
+
+                <!-- Modal de Editar Produto -->
+                <div id="modalEditProduct" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeEditModal()">&times;</span>
+                        <h2>Editar Produto</h2>
+                        <label for="editProductCode">Código do Produto:</label>
+                        <input type="text" id="editProductCode" disabled>
+
+                        <label for="editProductQuantity">Quantidade:</label>
+                        <input type="number" id="editProductQuantity">
+
+                        <label for="editProductPrice">Valor Unitário:</label>
+                        <input type="number" id="editProductPrice" step="0.01">
+
+                        <button onclick="confirmEditProduct()">Salvar Alterações</button>
                     </div>
                 </div>
             </div>

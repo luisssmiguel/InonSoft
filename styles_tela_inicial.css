@@ -307,20 +307,20 @@ thead {
     background-color: #45a049;
 }
 
-/* Botão de menu para mobile - pequeno, sem fundo preto, totalmente no canto direito */
+/* Botão de menu hamburguer para mobile - igual ao da tela de relatórios */
 .menu-toggle {
     display: none;
     position: fixed;
     top: 14px;
-    right: 14px;   /* Alinha totalmente à direita */
-    left: auto;
+    left: 14px;    /* Agora fica no canto esquerdo */
+    right: auto;
     z-index: 1201;
-    background: transparent; /* Sem fundo preto */
+    background: transparent;
     color: #000;
     border: none;
     border-radius: 50%;
-    padding: 4px 6px;    /* Bem pequeno */
-    font-size: 1.4rem;   /* Ícone menor */
+    padding: 4px 6px;
+    font-size: 1.4rem;
     cursor: pointer;
     box-shadow: none;
     transition: background 0.2s;
@@ -333,6 +333,12 @@ thead {
 .menu-toggle:focus {
     background: #e0e0e0;
     outline: none;
+}
+
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: block;
+    }
 }
 
 @media (max-width: 700px) {

@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', loadEstoque);
   
 // Função para abrir o modal
 function openModal() {
-  document.getElementById('modalAddProduct').style.display = 'block';
+  document.getElementById('modalAddProduct').style.display = 'flex';
 }
 
 // Função para fechar o modal
@@ -202,4 +202,58 @@ document.addEventListener('DOMContentLoaded', carregarInformacoesUsuario);
 function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('open');
     document.body.classList.toggle('sidebar-open');
+}
+
+// Função para abrir o modal de edição
+function openEditModal(produto) {
+    // Preencha os campos se necessário
+    document.getElementById('modalEditProduct').style.display = 'flex';
+}
+
+// Função para fechar o modal de edição
+function closeEditModal() {
+    document.getElementById('modalEditProduct').style.display = 'none';
+}
+
+// Função para editar um produto no estoque (abre o modal de edição)
+function editEstoque(codigo, quantidade, valorUnitario) {
+    document.getElementById('editProductCode').value = codigo;
+    document.getElementById('editProductQuantity').value = quantidade;
+    document.getElementById('editProductPrice').value = valorUnitario;
+    document.getElementById('modalEditProduct').style.display = 'flex';
+}
+
+// Função para confirmar a edição do produto
+async function confirmEditProduct() {
+    const codigo = document.getElementById('editProductCode').value;
+    const quantidade = parseInt(document.getElementById('editProductQuantity').value, 10);
+    const valorUnitario = parseFloat(document.getElementById('editProductPrice').value);
+
+    if (!codigo || isNaN(quantidade) || isNaN(valorUnitario)) {
+        alert("Todos os campos devem ser preenchidos corretamente.");
+        return;
+    }
+
+    try {
+        // Atualiza o produto no backend usando o código como identificador
+        const response = await fetch(`http://localhost:3000/estoque/${codigo}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantidade, valorUnitario })
+        });
+
+        if (!response.ok) {
+            const message = await response.text();
+            throw new Error(message);
+        }
+
+        alert("Produto atualizado com sucesso!");
+        closeEditModal();
+        loadEstoque(); // Atualiza a tabela na tela
+    } catch (error) {
+        console.error("Erro ao atualizar produto:", error);
+        alert("Erro ao atualizar produto: " + error.message);
+    }
 }

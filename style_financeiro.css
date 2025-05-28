@@ -224,6 +224,24 @@ body {
         line-height: 1.2;
         word-break: break-word;
     }
+    .grafico-categoria, /* ajuste para a classe do seu container do gráfico */
+    .chart-container {
+        max-width: 100vw;
+        width: 100vw;
+        overflow-x: auto;
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding: 0;
+    }
+    canvas {
+        max-width: 100vw !important;
+        width: 100% !important;
+        height: auto !important;
+        display: block;
+    }
+    .logo-text, .menu-item span, .account-options span {
+        display: inline !important;
+    }
 }
 
 /* Botão de menu hamburguer para mobile - igual ao da tela de relatórios */

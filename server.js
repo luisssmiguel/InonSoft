@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const venom = require('venom-bot');
 const fetch = require('node-fetch');
 const bodyParser = require("body-parser");
+const path = require("path"); // Adicionado para usar path.join
 const app = express();
 require('dotenv').config(); // Carrega as variáveis de ambiente
 
@@ -18,6 +19,10 @@ let client; // Armazena o cliente do Venom-Bot para uso posterior
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// --- Adicionado para servir a interface do bot --- 
+// Serve os arquivos estáticos da interface do bot na rota /bot
+app.use("/bot", express.static(path.join(__dirname, "whatsapp-bot-final (3)", "public")));
 
 // Configuração do banco de dados MySQL
 const connection = mysql.createConnection({

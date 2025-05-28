@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot - QR Code</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WhatsApp Bot</h1>
+            <p>Sistema de gerenciamento de conexões WhatsApp</p>
+        </header>
+        
+        <main>
+            <div class="qr-container">
+                <div id="qrcode">
+                    <div class="initial-state">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxMjhDN0UiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjIgMTYuOTJWMTlhMiAyIDAgMCAxLTIuMTggMiAxOS43OSAxOS43OSAwIDAgMS04LjYzLTMuMDcgMTkuNSAxOS41IDAgMCAxLTYtNiAxOS43OSAxOS43OSAwIDAgMS0zLjA3LTguNjdBMiAyIDAgMCAxIDQuMTEgMmgyLjA4YTIgMiAwIDAgMSAyIDEuNzIgMTIuODQgMTIuODQgMCAwIDAgLjcgMi44MSAyIDIgMCAwIDEtLjQ1IDIuMTFMOC4wOSA5Yy45IDEuOCAyLjM4IDMuMjggNC4xNyA0LjE5bDEuNDItMS40M2EyIDIgMCAwIDEgMi4xLS40NSAxMi44NCAxMi44NCAwIDAgMCAyLjgxLjdBMiAyIDAgMCAxIDIyIDE2LjkyeiI+PC9wYXRoPjwvc3ZnPg==" alt="Telefone" class="phone-icon">
+                        <p>Clique em "Conectar Número" para iniciar</p>
+                    </div>
+                </div>
+                <div id="status-message">Aguardando ação...</div>
+                
+                <div class="action-buttons">
+                    <button id="connect-btn" class="btn btn-primary">Conectar Número</button>
+                    <button id="disconnect-btn" class="btn btn-danger" disabled>Desconectar</button>
+                </div>
+            </div>
+            
+            <div class="connected-numbers">
+                <h2>Números Conectados</h2>
+                <div id="numbers-list">
+                    <p class="empty-list">Nenhum número conectado</p>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h2>Instruções</h2>
+                <ol>
+                    <li>Clique no botão "Conectar Número"</li>
+                    <li>Abra o WhatsApp no seu celular</li>
+                    <li>Toque em Menu ou Configurações e selecione WhatsApp Web</li>
+                    <li>Aponte a câmera do seu celular para o QR Code exibido</li>
+                    <li>Aguarde a conexão ser estabelecida</li>
+                </ol>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Sistema de Chatbot WhatsApp com Venom-Bot</p>
+        </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
